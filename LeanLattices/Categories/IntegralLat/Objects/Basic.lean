@@ -6,7 +6,7 @@ open SymmBilinModuleCat
 
 /-- Nondegeneracy: the adjoint map beta_B : L -> L* is injective. -/
 def AdjointInjective (L : SymmBilinModuleCat ℤ) : Prop :=
-  Function.Injective (L.form : L.carrier →ₗ[ℤ] (L.carrier →ₗ[ℤ] ℤ))
+  Function.Injective L.form
 
 /-- Full subcategory IntegralLat ⊂ SymBil_Z. -/
 structure IntegralLattice where
@@ -19,6 +19,9 @@ structure IntegralLattice where
   isSymm : form.IsSymm
   nondegenerate : form.Nondegenerate
 
+attribute [instance] IntegralLattice.addCommGroup IntegralLattice.module
+  IntegralLattice.finite IntegralLattice.free
+
 /-- Automatic injectivity of form-preserving embeddings into nondegenerate lattices. -/
 theorem embedding_injective {L M : IntegralLattice} (f : SymmBilinModuleCat.Hom ⟨L.carrier, L.form, L.isSymm⟩ ⟨M.carrier, M.form, M.isSymm⟩) :
     Function.Injective f.toLinearMap := by
@@ -29,7 +32,7 @@ theorem embedding_injective {L M : IntegralLattice} (f : SymmBilinModuleCat.Hom 
     have := f.map_form (x - y) z
     rw [h_diff, map_zero, LinearMap.zero_apply] at this
     exact this.symm
-  exact sub_eq_zero.mp (L.nondegenerate (x - y) h_form)
+  exact sub_eq_zero.mp (L.nondegenerate.1 (x - y) h_form)
 
 /-- Subcategory EvenLat (2 | B(x,x)). -/
 def IsEven (L : IntegralLattice) : Prop :=

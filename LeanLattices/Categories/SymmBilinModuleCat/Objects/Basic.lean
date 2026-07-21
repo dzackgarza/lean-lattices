@@ -1,4 +1,5 @@
-import Mathlib.CategoryTheory.Category.Basic
+import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib.LinearAlgebra.BilinearForm.Properties
 
 namespace LeanLattices.Categories.SymmBilinModuleCat
 
