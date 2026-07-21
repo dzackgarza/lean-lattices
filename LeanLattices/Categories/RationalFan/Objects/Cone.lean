@@ -1,19 +1,23 @@
-import LeanLattices.RationalFansAndSemifans
+import LeanLattices.Categories.IntegralLat.Objects.Basic
 
 namespace LeanLattices.Categories.RationalFan
 
-variable {L : Type*} [AddCommGroup L] [Module ℤ L] [Module.Finite ℤ L] [Module.Free ℤ L]
+open IntegralLat
 
-structure Cone (M : IntegralLattice.IntegralLattice L) where
-  generators : List L
+/-- Rational polyhedral cone over ZLat. -/
+structure Cone (L : IntegralLattice) where
+  generators : List L.carrier
 
-structure Fan (M : IntegralLattice.IntegralLattice L) where
-  cones : Set (Cone M)
+/-- Rational polyhedral fan over ZLat. -/
+structure Fan (L : IntegralLattice) where
+  cones : Set (Cone L)
 
-structure FanMorphism (F1 F2 : Fan (M := M)) where
-  map : L →ₗ[ℤ] L
+/-- Equivariant semifan and Wythoff coarsening. -/
+structure Semifan (L : IntegralLattice) where
+  cones : Set (Cone L)
+  isEquivariant : Prop
 
-def ToricFunctor (F : Fan (M := M)) : Type _ :=
-  True
+structure FanMorphism (L : IntegralLattice) (F1 F2 : Fan L) where
+  map : L.carrier →ₗ[ℤ] L.carrier
 
 end LeanLattices.Categories.RationalFan
