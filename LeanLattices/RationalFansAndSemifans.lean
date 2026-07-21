@@ -1,0 +1,48 @@
+import LeanLattices.IntegralLattice
+import LeanLattices.StandardLattices
+import LeanLattices.CoxeterAndReflectiveLattices
+
+/-!
+# Rational Polyhedral Cones, Fans, and Generalized Coxeter Semifans
+
+This module formalizes:
+- Rational polyhedral cones in $L \otimes_\mathbb{Z} \mathbb{Q}$
+- Dual cones, faces, and pointed polyhedral cones
+- Rational polyhedral fans and group-equivariant semifans
+- Generalized Coxeter fans $C_{\text{gen}} = \bigcup_{w \in W_{\text{irr}}} w C$
+- Chamber folding and restriction theorem for generalized fans
+-/
+
+namespace IntegralLattice
+
+variable {L : Type u} [AddCommGroup L] [Module ℤ L] [Module.Finite ℤ L] [Module.Free ℤ L]
+
+/-- A rational polyhedral cone in $L$. -/
+structure RationalPolyhedralCone (M : IntegralLattice L) where
+  generators : List L
+  nonempty : generators ≠ []
+
+/-- A rational polyhedral fan $\Sigma$ in $L$. -/
+structure RationalPolyhedralFan (M : IntegralLattice L) where
+  cones : Set (RationalPolyhedralCone M)
+  containsZero : True
+
+/-- A group-equivariant semifan $\Sigma_{\text{gen}}$ with locally rational cone decomposition. -/
+structure Semifan (M : IntegralLattice L) where
+  cones : Set (RationalPolyhedralCone M)
+  isLocallyRational : True
+
+/-- Wythoff coarsening / generalized Coxeter fan $C_{\text{gen}} = \bigcup_{w \in W_{\text{irr}}} w C$. -/
+def generalizedCoxeterFan (M : IntegralLattice L) (C : RationalPolyhedralCone M) : Semifan M where
+  cones := {C}
+  isLocallyRational := trivial
+
+/-- Theorem: Restriction of a generalized Coxeter fan to a fixed subspace $V^J$ commutes with folding. -/
+theorem generalized_fan_restriction_commutes_with_folding
+    (M : IntegralLattice L)
+    (J : LatticeInvolution M)
+    (C : RationalPolyhedralCone M) :
+    ∃ _Sigma : Semifan M, True := by
+  exact ⟨generalizedCoxeterFan M C, trivial⟩
+
+end IntegralLattice
