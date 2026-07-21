@@ -8,15 +8,8 @@ open AlgebraicGeometry
 structure BlowupMorphism (X : Scheme) where
   X_tilde : Scheme
   π : X_tilde ⟶ X
-
-/-- Cyclic double cover morphism pi : Y -> X. -/
-structure CoverMorphism (X : Scheme) where
-  Y : Scheme
-  π : Y ⟶ X
-
-/-- Finite group quotient morphism pi : X -> Y. -/
-structure QuotientMorphism (X : Scheme) where
-  Y : Scheme
-  π : X ⟶ Y
+  center : Set X
+  exceptionalDivisor : Set X_tilde
+  isIsoAwayFromCenter : Prop
 
 end LeanLattices.Categories.Scheme
