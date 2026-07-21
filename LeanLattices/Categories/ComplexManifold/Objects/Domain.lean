@@ -2,16 +2,17 @@ import Mathlib.Analysis.Complex.Basic
 
 namespace LeanLattices.Categories.ComplexManifold
 
+/-- A type-IV period domain represented by isotropic positive projective period vectors. -/
 structure Domain where
-  space : Type _
-
-structure ArithmeticQuotient where
-  quotient : Type _
-
-structure HolomorphicMap (D1 D2 : Domain) where
-  map : D1.space → D2.space
-
-def PeriodMapFunctor (D : Domain) : Type _ :=
-  True
+  periodVector : Type
+  conjugate : periodVector → periodVector
+  pairing : periodVector → periodVector → ℂ
+  points : Set periodVector
+  isotropic : ∀ ω ∈ points, pairing ω ω = 0
+  positive : ∀ ω ∈ points, 0 < (pairing ω (conjugate ω)).re
+  symmetryGroup : Type
+  maximalCompact : Type
+  symmetricSpaceModel : Type
+  quotientModel : symmetricSpaceModel ≃ symmetryGroup × maximalCompact
 
 end LeanLattices.Categories.ComplexManifold
