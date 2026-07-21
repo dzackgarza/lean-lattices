@@ -1,13 +1,43 @@
 import Mathlib.Algebra.Module.Basic
+import Mathlib.CategoryTheory.Category.Basic
+import Mathlib.CategoryTheory.ModuleCat.Basic
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 
-/-- Property defining objects of FiniteFreeZModule: finite and free Z-modules. -/
-structure FiniteFreeZModule where
+open CategoryTheory
+
+universe u v
+
+/-- Property defining objects of ZLat: finite free Z-modules. -/
+structure ZLat where
   carrier : Type u
   [addCommGroup : AddCommGroup carrier]
   [module : Module ℤ carrier]
   [finite : Module.Finite ℤ carrier]
   [free : Module.Free ℤ carrier]
+
+attribute [instance] ZLat.addCommGroup ZLat.module ZLat.finite ZLat.free
+
+/-- Morphisms in ZLat are all Z-linear maps. -/
+structure Hom (M N : ZLat.{u}) where
+  toLinearMap : M.carrier →ₗ[ℤ] N.carrier
+
+def Hom.id (M : ZLat.{u}) : Hom M M where
+  toLinearMap := LinearMap.id
+
+def Hom.comp {L M N : ZLat.{u}} (g : Hom M N) (f : Hom L M) : Hom L N where
+  toLinearMap := g.toLinearMap.comp f.toLinearMap
+
+instance : Category ZLat.{u} where
+  Hom M N := Hom M N
+  id M := Hom.id M
+  comp f g := Hom.comp g f
+  id_comp _ := rfl
+  comp_id _ := rfl
+  assoc _ _ _ := rfl
+
+/-- Realification scalar extension functor M |-> M ⊗_Z R. -/
+def realification (M : ZLat.{u}) : Type u :=
+  M.carrier ⊗[ℤ] ℝ
 
 end LeanLattices.Categories.FiniteFreeZModule
