@@ -1,11 +1,18 @@
+import LeanLattices.Basic
 import LeanLattices.IntegralLattice
 import LeanLattices.DualAndDiscriminant
 import LeanLattices.StandardLattices
 import LeanLattices.DiscriminantForms
+import LeanLattices.CoxeterAndReflectiveLattices
+import LeanLattices.EnriquesSurfaceTheory
 import LeanLattices.NikulinGluing
 import LeanLattices.OverlatticesAndGluing
-import LeanLattices.CoxeterAndReflectiveLattices
 import LeanLattices.RationalFansAndSemifans
+import LeanLattices.Algebra.BilinearForm.Basic
+import LeanLattices.Algebra.BilinearForm.Dual
+import LeanLattices.Algebra.BilinearForm.Discriminant
+import LeanLattices.Algebra.Lattices.Standard
+
 import LeanLattices.EnriquesSurfaceTheory
 
 /-!
