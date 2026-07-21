@@ -4,25 +4,12 @@ namespace LeanLattices.Categories.AlgebraicStack
 
 open AlgebraicGeometry
 
-structure AlgebraicSpace where
-  space : Type _
-
+/-- A moduli stack of stable pairs with its geometric properties and lattice-labelled components. -/
 structure KSBAStack where
   stack : Type _
-
-structure KulikovModel where
-  model : Scheme
-
-structure IntegralAffineManifold where
-  manifold : Type _
-
-structure StackMorphism (S1 S2 : KSBAStack) where
-  morphism : S1.stack → S2.stack
-
-structure DeformationGroupoid (X : Scheme) where
-  groupoid : Type _
-
-def SemitoroidalFunctor (S : KSBAStack) : Type _ :=
-  True
+  objects : stack → Scheme
+  latticeLabel : stack → Type
+  proper : Prop
+  separated : Prop
 
 end LeanLattices.Categories.AlgebraicStack

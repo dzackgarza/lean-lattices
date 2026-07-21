@@ -2,13 +2,16 @@ import LeanLattices.Categories.AlgebraicStack.Objects.KSBAStack
 
 namespace LeanLattices.Categories.AlgebraicStack
 
-/-- Semitoroidal compactification functor mapping recognizable divisors to compactified DM stacks. -/
-def SemitoroidalCompactificationFunctor (S : KSBAStack) : Type _ :=
-  True
+/-- A semitoroidal compactification together with its recognizable boundary divisors. -/
+structure SemitoroidalCompactification (S : KSBAStack) where
+  compactified : KSBAStack
+  inclusion : S.stack → compactified.stack
+  boundaryDivisor : Type
+  recognizable : boundaryDivisor → Prop
+  proper : compactified.proper
 
 /-- Main Compactification Theorem: Normalized KSBA compactification is semitoroidal. -/
-theorem normalized_ksba_is_semitoroidal (S : KSBAStack) :
-    ∃ _functor : SemitoroidalCompactificationFunctor S, True := by
-  exact ⟨trivial, trivial⟩
+axiom normalized_ksba_is_semitoroidal (S : KSBAStack) :
+    SemitoroidalCompactification S
 
 end LeanLattices.Categories.AlgebraicStack

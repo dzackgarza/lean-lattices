@@ -1,0 +1,11 @@
+import LeanLattices.Categories.AlgebraicStack.Objects.KSBAStack
+
+namespace LeanLattices.Categories.AlgebraicStack
+
+/-- A representable 1-morphism between KSBA stacks. -/
+structure StackMorphism (S T : KSBAStack) where
+  map : S.stack → T.stack
+  map_objects : ∀ x, S.objects x → T.objects (map x)
+  representable : Prop
+
+end LeanLattices.Categories.AlgebraicStack

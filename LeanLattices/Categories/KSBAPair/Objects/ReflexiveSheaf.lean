@@ -7,17 +7,15 @@ open AlgebraicGeometry
 /-- Relative dualizing sheaf omega_{X/S}[m]. -/
 structure ReflexiveSheaf (X : Scheme) where
   sheaf : Type _
+  reflexive : Prop
+  power : ℕ
 
-/-- Category of log pairs (X, Delta) with klt, plt, lc, dlt, slc predicates. -/
-structure LogPair where
-  X : Scheme
-
-/-- Dlt contraction morphism. -/
-structure DltContraction (P1 P2 : LogPair) where
-  morphism : P1.X ⟶ P2.X
-
-/-- Relative Minimal Model Program contraction functor. -/
-def SurfaceMMPFunctor (P : LogPair) : Type _ :=
-  True
+/-- Q-Gorenstein data: a positive reflexive power of the dualizing sheaf is invertible. -/
+structure QGorenstein (X : Scheme) where
+  index : ℕ
+  positive_index : 0 < index
+  dualizingPower : ReflexiveSheaf X
+  correct_power : dualizingPower.power = index
+  invertible : Prop
 
 end LeanLattices.Categories.KSBAPair

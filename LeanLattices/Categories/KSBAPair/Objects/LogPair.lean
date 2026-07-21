@@ -4,16 +4,26 @@ namespace LeanLattices.Categories.KSBAPair
 
 open AlgebraicGeometry
 
-structure DualizingSheaf (X : Scheme) where
-  sheaf : Type _
+/-- Standard singularity classes for log pairs. -/
+inductive SingularityClass where
+  | klt | plt | lc | dlt | slc
 
+/-- A log pair consists of a scheme and a rational boundary divisor. -/
 structure LogPair where
   X : Scheme
+  boundaryComponents : Type
+  coefficient : boundaryComponents → ℚ
+  coefficient_bounds : ∀ D, 0 ≤ coefficient D ∧ coefficient D ≤ 1
+  valuation : Type
+  discrepancy : valuation → ℚ
 
-structure DltContraction (P1 P2 : LogPair) where
-  morphism : P1.X ⟶ P2.X
-
-def SurfaceMMPFunctor (P : LogPair) : Type _ :=
-  True
+/-- A pair has a singularity class when its discrepancies satisfy the corresponding threshold. -/
+def HasSingularity (P : LogPair) : SingularityClass → Prop
+  | .klt => ∀ E, -1 < P.discrepancy E
+  | .plt => ∀ E, -1 < P.discrepancy E
+  | .lc => ∀ E, -1 ≤ P.discrepancy E
+  | .dlt => (∀ E, -1 ≤ P.discrepancy E) ∧
+      (P.boundaryComponents → Nonempty P.valuation)
+  | .slc => ∀ E, -1 ≤ P.discrepancy E
 
 end LeanLattices.Categories.KSBAPair
