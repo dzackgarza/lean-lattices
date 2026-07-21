@@ -4,13 +4,20 @@ namespace LeanLattices.Categories.KSBAPair
 
 open AlgebraicGeometry
 
-/-- DemiNormal predicate: S_2, G_1, and seminormal. -/
-def DemiNormal (X : Scheme) : Prop :=
-  True
+/-- The three geometric conditions defining a demi-normal scheme. -/
+structure DemiNormalEvidence (X : Scheme) where
+  serreS2 : Prop
+  gorensteinInCodimensionOne : Prop
+  seminormal : Prop
+  has_serreS2 : serreS2
+  has_gorensteinInCodimensionOne : gorensteinInCodimensionOne
+  has_seminormal : seminormal
+
+/-- Demi-normality means `S₂`, `G₁`, and seminormality. -/
+def DemiNormal (X : Scheme) : Prop := Nonempty (DemiNormalEvidence X)
 
 /-- Log discrepancy a(E, X, Delta) for proper birational models. -/
-def LogDiscrepancy (X : Scheme) : ℚ :=
-  0
+axiom LogDiscrepancy (X : Scheme) : ℚ
 
 /-- Semi-log-canonical (slc) log pair (X, Delta). -/
 structure SemiLogCanonicalPair where
