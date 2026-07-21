@@ -5,6 +5,8 @@ import LeanLattices.StandardLattices
 import LeanLattices.DiscriminantForms
 import LeanLattices.CoxeterAndReflectiveLattices
 import LeanLattices.EnriquesSurfaceTheory
+import LeanLattices.NikulinGluing
+
 
 
 
