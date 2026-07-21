@@ -1,4 +1,4 @@
-import LeanLattices.Categories.SymmBilinModuleCat.Objects.Basic
+import LeanLattices.Categories.SymmBilinModuleCat.Morphisms.Hom
 
 namespace LeanLattices.Categories.IntegralLat
 

@@ -19,19 +19,30 @@ namespace IntegralLattice
 variable {L : Type*} [AddCommGroup L] [Module ℤ L] [Module.Finite ℤ L] [Module.Free ℤ L]
 
 /-- Reflection linear map on $L$. -/
-def reflection (M : IntegralLattice L) (r : L) (_hr : M.quad r = -2 ∨ M.quad r = 2) : L →ₗ[ℤ] L where
-  toFun x := if M.quad r = -2 then x + (M.eval x r) • r else x - (M.eval x r) • r
-  map_add' x y := by
-    by_cases h : M.quad r = -2
-    · rw [if_pos h, if_pos h, if_pos h]
-      dsimp [IntegralLattice.eval]
-      rw [M.B.map_add, LinearMap.add_apply, add_zsmul]
-      abel
-    · rw [if_neg h, if_neg h, if_neg h]
-      dsimp [IntegralLattice.eval]
-      rw [M.B.map_add, LinearMap.add_apply, add_zsmul]
-      abel
-  map_smul' _c _x := sorry
+def reflection (M : IntegralLattice L) (r : L)
+    (_hr : M.quad r = -2 ∨ M.quad r = 2) : L →ₗ[ℤ] L :=
+  let f : L →+ L := {
+    toFun x := if M.quad r = -2 then x + (M.eval x r) • r else x - (M.eval x r) • r
+    map_zero' := by simp [IntegralLattice.eval]
+    map_add' := by
+      intro x y
+      by_cases h : M.quad r = -2
+      · rw [if_pos h, if_pos h, if_pos h]
+        dsimp [IntegralLattice.eval]
+        rw [M.B.map_add, LinearMap.add_apply, add_zsmul]
+        abel
+      · rw [if_neg h, if_neg h, if_neg h]
+        dsimp [IntegralLattice.eval]
+        rw [M.B.map_add, LinearMap.add_apply, add_zsmul]
+        abel
+  }
+  {
+    toFun := f
+    map_add' := f.map_add
+    map_smul' := by
+      intro c x
+      exact map_intCast_smul f ℤ ℤ c x
+  }
 
 
 
