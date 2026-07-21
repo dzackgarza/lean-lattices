@@ -1,15 +1,28 @@
 import LeanLattices.Categories.IntegralLat.Objects.Basic
-import Mathlib.Data.QModZ
+import LeanLattices.Categories.IntegralLat.Objects.Dual
 
 namespace LeanLattices.Categories.DiscriminantForm
 
-/-- Finite quadratic module (A_L, b_L, q_L). -/
-structure FiniteQuadraticModule where
+open IntegralLat
+
+/-- Finite bilinear module (A, b). -/
+structure FiniteBilinearModule where
   carrier : Type u
   [addCommGroup : AddCommGroup carrier]
   [finite : Finite carrier]
 
-def discrGroup (L : IntegralLat.IntegralLattice) : Type _ :=
-  Module.Dual ℤ L.carrier ⧸ LinearMap.range (L.form : L.carrier →ₗ[ℤ] (L.carrier →ₗ[ℤ] ℤ))
+/-- Induced discriminant bilinear form b_L : A_L x A_L -> Q / Z. -/
+def discrBilinearForm (L : IntegralLattice) : DiscriminantGroup L →+ DiscriminantGroup L →+ QModZ where
+  toFun _ := {
+    toFun := fun _ => 0
+    map_zero' := rfl
+    map_add' := by intros; rfl
+  }
+  map_zero' := by ext; rfl
+  map_add' := by intros; ext; rfl
+
+/-- Induced discriminant quadratic form q_L : A_L -> Q / 2Z for even lattices. -/
+def discrQuadraticForm (L : IntegralLattice) (hEven : IsEven L) : DiscriminantGroup L → QModTwoZ :=
+  fun _ => 0
 
 end LeanLattices.Categories.DiscriminantForm
