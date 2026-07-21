@@ -30,7 +30,7 @@ instance (M : IntegralLattice L) : AddCommGroup (DiscriminantGroup M) :=
 /-- An isotropic subgroup of the discriminant group $A_L$. -/
 structure IsotropicSubgroup (M : IntegralLattice L) where
   carrier : AddSubgroup (DiscriminantGroup M)
-  isEven : ∀ _x ∈ carrier, True
+  isTwoTorsion : ∀ x ∈ carrier, 2 • x = 0
 
 /-- Gluing of two discriminant forms $A_{L_1}$ and $A_{L_2}$ via an anti-isometry. -/
 structure AntiIsometry {L1 L2 : Type u}

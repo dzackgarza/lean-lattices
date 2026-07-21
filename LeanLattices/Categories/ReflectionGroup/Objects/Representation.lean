@@ -14,8 +14,8 @@ inductive SubdiagramType
 structure Representation (L : IntegralLattice) where
   group_action : L.carrier →ₗ[ℤ] L.carrier
 
-/-- Chamber-preserving homomorphism. -/
-structure ChamberHom (L : IntegralLattice) where
+/-- Endomorphism underlying a chamber representation. -/
+structure ChamberEndomorphism (L : IntegralLattice) where
   hom : L.carrier →ₗ[ℤ] L.carrier
 
 end LeanLattices.Categories.ReflectionGroup

@@ -5,8 +5,9 @@ namespace LeanLattices.Categories.IntegralLat
 /-- Refinement of the overlattice bijection: the equivalence is order-preserving
     with respect to inclusion of overlattices and inclusion of isotropic subgroups.
     See Nikulin, Theorem 1.4.1, Remark 1.4.2. -/
-axiom overlattice_isotropic_order_iso (L : IntegralLattice) (hEven : IsEven L) :
-    OrderIso (Overlattice L) (IsotropicSubgroup L hEven)
+noncomputable def overlatticeBijectionOrderIso (L : IntegralLattice) (hEven : IsEven L) :
+    OrderIso (Overlattice L) (IsotropicSubgroup L hEven) :=
+  overlattice_isotropic_order_iso L hEven
 
 /-- For an even unimodular overlattice L', the corresponding isotropic subgroup H = L'/L
     satisfies H = H⊥ (self-dual under the discriminant form).

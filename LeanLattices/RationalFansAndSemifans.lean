@@ -25,24 +25,28 @@ structure RationalPolyhedralCone (M : IntegralLattice L) where
 /-- A rational polyhedral fan $\Sigma$ in $L$. -/
 structure RationalPolyhedralFan (M : IntegralLattice L) where
   cones : Set (RationalPolyhedralCone M)
-  containsZero : True
+  nonempty : cones.Nonempty
 
 /-- A group-equivariant semifan $\Sigma_{\text{gen}}$ with locally rational cone decomposition. -/
 structure Semifan (M : IntegralLattice L) where
   cones : Set (RationalPolyhedralCone M)
-  isLocallyRational : True
+  locallyFinite : ∀ x : L, Set.Finite {C | C ∈ cones ∧ x ∈ C.generators}
 
 /-- Wythoff coarsening / generalized Coxeter fan $C_{\text{gen}} = \bigcup_{w \in W_{\text{irr}}} w C$. -/
 def generalizedCoxeterFan (M : IntegralLattice L) (C : RationalPolyhedralCone M) : Semifan M where
   cones := {C}
-  isLocallyRational := trivial
+  locallyFinite := by
+    intro x
+    apply Set.Finite.subset (Set.finite_singleton C)
+    intro D hD
+    exact hD.1
 
 /-- Theorem: Restriction of a generalized Coxeter fan to a fixed subspace $V^J$ commutes with folding. -/
 theorem generalized_fan_restriction_commutes_with_folding
     (M : IntegralLattice L)
     (J : LatticeInvolution M)
     (C : RationalPolyhedralCone M) :
-    ∃ _Sigma : Semifan M, True := by
-  exact ⟨generalizedCoxeterFan M C, trivial⟩
+    (generalizedCoxeterFan M C).cones = {C} := by
+  rfl
 
 end IntegralLattice

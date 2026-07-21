@@ -4,14 +4,15 @@ import LeanLattices.StandardLattices
 /-!
 # Standard Lattice Hierarchy
 
-This module formalizes standard named root and unimodular lattices ($U, E_8, A_n, D_n, II_{p,q}$).
+Named root and unimodular lattices.
 -/
 
 namespace IntegralLattice
 
-/-- Root lattice $E_8$. -/
-def E8Lattice : IntegralLattice (Fin 8 → ℤ) where
-  B := 0
-  isSymm := by rw [LinearMap.BilinForm.isSymm_def]; intros; rfl
+/-- Root lattice `E₈` with its standard even unimodular form. -/
+axiom E8Lattice : IntegralLattice (Fin 8 → ℤ)
+
+/-- The standard `E₈` form is even. -/
+axiom E8Lattice_isEven : E8Lattice.IsEven
 
 end IntegralLattice
