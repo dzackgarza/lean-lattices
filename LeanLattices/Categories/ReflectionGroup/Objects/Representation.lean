@@ -1,13 +1,21 @@
-import Mathlib.LinearAlgebra.BilinearForm.Basic
+import LeanLattices.Categories.IntegralLat.Objects.Basic
 
 namespace LeanLattices.Categories.ReflectionGroup
 
-variable {V : Type*} [AddCommGroup V] [Module ℤ V]
+open IntegralLat
 
-structure Representation (B : LinearMap.BilinForm ℤ V) where
-  group_action : V →ₗ[ℤ] V
+/-- Subdiagram classifications: Elliptic, Parabolic, MaximalParabolic. -/
+inductive SubdiagramType
+  | Elliptic
+  | Parabolic
+  | MaximalParabolic
 
-structure ChamberHom (R1 R2 : Representation (B := B)) where
-  hom : V →ₗ[ℤ] V
+/-- Reflection representation W -> O(V) in signature (1,n). -/
+structure Representation (L : IntegralLattice) where
+  group_action : L.carrier →ₗ[ℤ] L.carrier
+
+/-- Chamber-preserving homomorphism. -/
+structure ChamberHom (L : IntegralLattice) where
+  hom : L.carrier →ₗ[ℤ] L.carrier
 
 end LeanLattices.Categories.ReflectionGroup
