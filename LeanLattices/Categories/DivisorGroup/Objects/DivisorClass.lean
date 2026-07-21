@@ -1,16 +1,19 @@
-import Mathlib.Algebra.Group.Subgroup.Basic
+import Mathlib.AlgebraicGeometry.Scheme
 
 namespace LeanLattices.Categories.DivisorGroup
 
-variable {X : Type*}
+open AlgebraicGeometry
 
-structure DivisorClass where
-  group : AddSubgroup X
+/-- Cartier/Weil divisor groups Div(X) and Cl(X) as AddCommGroup objects. -/
+structure DivisorGroup (X : Scheme) where
+  group : Type _
+  [addCommGroup : AddCommGroup group]
 
-structure DivisorHom (D1 D2 : DivisorClass (X := X)) where
+structure DivisorHom (X : Scheme) (D1 D2 : DivisorGroup X) where
   hom : D1.group →+ D2.group
 
-def PositivityFunctor (D : DivisorClass (X := X)) : Prop :=
+/-- Positivity functor DivisorGroup -> Pic(X). -/
+def PositivityFunctor (X : Scheme) (D : DivisorGroup X) : Prop :=
   True
 
 end LeanLattices.Categories.DivisorGroup
