@@ -5,54 +5,52 @@ namespace LeanLattices.Categories.DiscriminantForm
 
 open IntegralLat
 
-/-- A finite bilinear module: a finite abelian group equipped with a
-    symmetric bilinear form valued in ℚ/ℤ (represented abstractly). -/
+/-- The additive circle ℚ/ℤ, represented by rational representatives modulo integral translation. -/
+abbrev QModZ := ℚ ⧸ AddSubgroup.zmultiples (1 : ℚ)
+
+/-- The additive quotient ℚ/2ℤ used by finite quadratic forms. -/
+abbrev QModTwoZ := ℚ ⧸ AddSubgroup.zmultiples (2 : ℚ)
+
+/-- The canonical passage from bilinear values modulo ℤ to quadratic values modulo 2ℤ. -/
+axiom bilinearValueInQuadraticQuotient : QModZ →+ QModTwoZ
+
+/-- A finite abelian group equipped with a symmetric biadditive ℚ/ℤ-valued form. -/
 structure FiniteBilinearModule where
   carrier : Type u
   [addCommGroup : AddCommGroup carrier]
   [finite : Finite carrier]
-  /-- The bilinear pairing b : A × A → ℚ/ℤ, represented abstractly
-      as a symmetric bilinear function to ℤ (the actual ℚ/ℤ values
-      require quotient types not available without further setup). -/
-  bilinForm : carrier → carrier → ℤ
+  bilinForm : carrier →+ carrier →+ QModZ
   isSymm : ∀ x y, bilinForm x y = bilinForm y x
 
 attribute [instance] FiniteBilinearModule.addCommGroup FiniteBilinearModule.finite
 
-/-- A finite quadratic module: a finite abelian group A with quadratic form
-    q : A → ℚ/2ℤ satisfying the polarization identity
-    q(x+y) - q(x) - q(y) = b(x,y). -/
+/-- A finite quadratic module with its polarization identity. -/
 structure FiniteQuadraticModule extends FiniteBilinearModule where
-  quadForm : carrier → ℤ
-  polarization : ∀ x y, quadForm (x + y) - quadForm x - quadForm y = bilinForm x y
+  quadForm : carrier → QModTwoZ
+  polarization : ∀ x y,
+    quadForm (x + y) - quadForm x - quadForm y =
+      bilinearValueInQuadraticQuotient (bilinForm x y)
 
-/-- The discriminant group A_L = L*/L of an integral lattice,
-    equipped with the induced bilinear form. -/
-noncomputable def discrGroup (L : IntegralLattice) : Type _ :=
-  DiscriminantGroup L
+/-- The discriminant group A_L = L*/L. -/
+noncomputable def discrGroup (L : IntegralLattice) : Type _ := DiscriminantGroup L
 
 instance (L : IntegralLattice) : AddCommGroup (discrGroup L) :=
   QuotientAddGroup.Quotient.addCommGroup _
 
-/-- The induced discriminant bilinear form b_L : A_L × A_L → ℚ/ℤ.
-    For x̃, ỹ lifts of x, y ∈ A_L, b_L(x,y) = B(x̃, ỹ) mod ℤ.
-    See Nikulin, §1.3. Since the actual ℚ/ℤ construction requires
-    substantial infrastructure, we axiomatize this. -/
+/-- The induced discriminant bilinear form, defined by pairing dual lifts modulo ℤ. -/
 axiom discrBilinearForm (L : IntegralLattice) :
-    discrGroup L → discrGroup L → ℤ
+    discrGroup L →+ discrGroup L →+ QModZ
 
 axiom discrBilinearForm_symm (L : IntegralLattice) :
     ∀ x y, discrBilinearForm L x y = discrBilinearForm L y x
 
-/-- The induced discriminant quadratic form q_L : A_L → ℚ/2ℤ for even lattices.
-    For x̃ a lift of x ∈ A_L, q_L(x) = B(x̃, x̃)/2 mod ℤ.
-    See Nikulin, §1.3. -/
+/-- The induced discriminant quadratic form of an even lattice. -/
 axiom discrQuadraticForm (L : IntegralLattice) (hEven : IsEven L) :
-    discrGroup L → ℤ
+    discrGroup L → QModTwoZ
 
-/-- Polarization identity for the discriminant forms. -/
 axiom discrQuad_polarization (L : IntegralLattice) (hEven : IsEven L) :
     ∀ x y, discrQuadraticForm L hEven (x + y) - discrQuadraticForm L hEven x -
-            discrQuadraticForm L hEven y = discrBilinearForm L x y
+      discrQuadraticForm L hEven y =
+        bilinearValueInQuadraticQuotient (discrBilinearForm L x y)
 
 end LeanLattices.Categories.DiscriminantForm

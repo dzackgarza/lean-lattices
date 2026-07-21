@@ -1,4 +1,5 @@
 import LeanLattices.Categories.IntegralLat.Objects.Basic
+import Mathlib.LinearAlgebra.QuadraticForm.Basic
 
 namespace LeanLattices.Categories.IntegralLat
 
@@ -24,6 +25,13 @@ theorem two_mul_quadRefinement (L : EvenLattice) (x : L.carrier) :
     Then Q(x+y) = (B(x,x) + 2B(x,y) + B(y,y))/2 = Q(x) + B(x,y) + Q(y). -/
 axiom quadRefinement_polarization (L : EvenLattice) (x y : L.carrier) :
     quadRefinement L (x + y) - quadRefinement L x - quadRefinement L y = L.form x y
+
+/-- The quadratic form associated to an even lattice. -/
+axiom quadraticForm (L : EvenLattice) : QuadraticForm ℤ L.carrier
+
+/-- Its evaluation agrees with the exact divisibility-based refinement. -/
+axiom quadraticForm_apply (L : EvenLattice) (x : L.carrier) :
+    quadraticForm L x = quadRefinement L x
 
 /-- Evenness is inherited by sublattices. -/
 theorem isEven_of_sublattice (L : IntegralLattice) (M : Submodule ℤ L.carrier)

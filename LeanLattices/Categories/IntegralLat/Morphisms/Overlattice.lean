@@ -1,5 +1,6 @@
 import LeanLattices.Categories.IntegralLat.Objects.EvenLat
 import LeanLattices.Categories.IntegralLat.Objects.Dual
+import LeanLattices.Categories.DiscriminantForm.Objects.Basic
 
 namespace LeanLattices.Categories.IntegralLat
 
@@ -12,7 +13,30 @@ structure Overlattice (L : IntegralLattice) where
     induced bilinear form vanishes. -/
 structure IsotropicSubgroup (L : IntegralLattice) (hEven : IsEven L) where
   subgroup : AddSubgroup (DiscriminantGroup L)
-  isotropic : ∀ x ∈ subgroup, ∀ y ∈ subgroup, True  -- simplified isotropy condition
+  isotropic : ∀ x ∈ subgroup,
+    DiscriminantForm.discrQuadraticForm L hEven x = 0
+
+@[ext]
+theorem Overlattice.ext {L : IntegralLattice} {M N : Overlattice L}
+    (h : M.sublattice = N.sublattice) : M = N := by
+  cases M
+  cases N
+  cases h
+  rfl
+
+instance (L : IntegralLattice) : PartialOrder (Overlattice L) :=
+  PartialOrder.lift Overlattice.sublattice fun _ _ => Overlattice.ext
+
+@[ext]
+theorem IsotropicSubgroup.ext {L : IntegralLattice} {hEven : IsEven L}
+    {H K : IsotropicSubgroup L hEven} (h : H.subgroup = K.subgroup) : H = K := by
+  cases H
+  cases K
+  cases h
+  rfl
+
+instance (L : IntegralLattice) (hEven : IsEven L) : PartialOrder (IsotropicSubgroup L hEven) :=
+  PartialOrder.lift IsotropicSubgroup.subgroup fun _ _ => IsotropicSubgroup.ext
 
 /-- Nikulin's overlattice theorem: Even overlattices L ⊆ L' ⊆ L* biject with
     isotropic subgroups of the discriminant group A_L.
@@ -21,9 +45,13 @@ structure IsotropicSubgroup (L : IntegralLattice) (hEven : IsEven L) where
 axiom overlattice_isotropic_equiv (L : IntegralLattice) (hEven : IsEven L) :
     Overlattice L ≃ IsotropicSubgroup L hEven
 
+/-- Nikulin's correspondence is inclusion-preserving in both directions. -/
+axiom overlattice_isotropic_order_iso (L : IntegralLattice) (hEven : IsEven L) :
+    Overlattice L ≃o IsotropicSubgroup L hEven
+
 /-- The number of even overlattices is determined by the discriminant group. -/
 axiom overlattice_count (L : IntegralLattice) (hEven : IsEven L)
-    [Fintype (DiscriminantGroup L)] :
+    [Fintype (DiscriminantGroup L)] [Fintype (IsotropicSubgroup L hEven)] :
     ∃ n : ℕ, n = Fintype.card (IsotropicSubgroup L hEven)
 
 end LeanLattices.Categories.IntegralLat

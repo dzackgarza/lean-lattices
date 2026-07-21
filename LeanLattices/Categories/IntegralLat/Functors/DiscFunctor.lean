@@ -1,39 +1,75 @@
-import LeanLattices.Categories.IntegralLat.Objects.EvenLat
-import LeanLattices.Categories.IntegralLat.Objects.Dual
+import LeanLattices.Categories.DiscriminantForm.Objects.Basic
 
 namespace LeanLattices.Categories.IntegralLat
 
-/-- A finite quadratic module: a finite abelian group A equipped with
-    a quadratic form q : A → ℚ/2ℤ (represented abstractly). -/
-structure FiniteQuadraticModule where
-  carrier : Type u
-  [addCommGroup : AddCommGroup carrier]
-  [finite : Finite carrier]
+open CategoryTheory
+open LeanLattices.Categories.DiscriminantForm
 
-attribute [instance] FiniteQuadraticModule.addCommGroup FiniteQuadraticModule.finite
+/-- Isometries between even lattices. -/
+structure EvenIsometry (L M : EvenLattice) where
+  equiv : L.carrier ≃ₗ[ℤ] M.carrier
+  map_form : ∀ x y, M.form (equiv x) (equiv y) = L.form x y
 
-/-- The discriminant module of an even lattice L: the pair (A_L, q_L). -/
-noncomputable def discriminantModule (L : EvenLattice) : FiniteQuadraticModule where
-  carrier := DiscriminantGroup L.toIntegralLattice
+def EvenIsometry.id (L : EvenLattice) : EvenIsometry L L where
+  equiv := LinearEquiv.refl ℤ L.carrier
+  map_form _ _ := rfl
 
-/-- The discriminant functor sends an even lattice to its discriminant module.
-    On the groupoid Core(EvenLat), an isometry φ : L₁ ≅ L₂ induces an
-    isomorphism φ* : (A_{L₁}, q_{L₁}) ≅ (A_{L₂}, q_{L₂}).
-    See Nikulin, §1.3. -/
-axiom discriminantFunctor_map
-    (L₁ L₂ : EvenLattice)
-    (φ : L₁.carrier ≃ₗ[ℤ] L₂.carrier)
-    (hIsom : ∀ x y, L₂.form (φ x) (φ y) = L₁.form x y) :
-    DiscriminantGroup L₁.toIntegralLattice ≃+ DiscriminantGroup L₂.toIntegralLattice
+def EvenIsometry.comp {L M N : EvenLattice} (g : EvenIsometry M N)
+    (f : EvenIsometry L M) : EvenIsometry L N where
+  equiv := f.equiv.trans g.equiv
+  map_form x y := by
+    change N.form (g.equiv (f.equiv x)) (g.equiv (f.equiv y)) = L.form x y
+    rw [g.map_form, f.map_form]
 
-/-- The discriminant functor preserves composition of isometries. -/
-axiom discriminantFunctor_comp
-    (L₁ L₂ L₃ : EvenLattice)
-    (φ : L₁.carrier ≃ₗ[ℤ] L₂.carrier)
-    (ψ : L₂.carrier ≃ₗ[ℤ] L₃.carrier)
-    (hφ : ∀ x y, L₂.form (φ x) (φ y) = L₁.form x y)
-    (hψ : ∀ x y, L₃.form (ψ x) (ψ y) = L₂.form x y) :
-    ∀ x, discriminantFunctor_map L₁ L₃ (φ.trans ψ) (fun a b => by rw [hψ, hφ]) x =
-         discriminantFunctor_map L₂ L₃ ψ hψ (discriminantFunctor_map L₁ L₂ φ hφ x)
+instance : Category EvenLattice where
+  Hom := EvenIsometry
+  id := EvenIsometry.id
+  comp f g := EvenIsometry.comp g f
+  id_comp f := by cases f; rfl
+  comp_id f := by cases f; rfl
+  assoc f g h := by cases f; cases g; cases h; rfl
+
+/-- Isometries of finite quadratic modules. -/
+structure QuadraticIsometry (A B : FiniteQuadraticModule) where
+  equiv : A.carrier ≃+ B.carrier
+  map_quad : ∀ x, B.quadForm (equiv x) = A.quadForm x
+
+def QuadraticIsometry.id (A : FiniteQuadraticModule) : QuadraticIsometry A A where
+  equiv := AddEquiv.refl A.carrier
+  map_quad _ := rfl
+
+def QuadraticIsometry.comp {A B C : FiniteQuadraticModule} (g : QuadraticIsometry B C)
+    (f : QuadraticIsometry A B) : QuadraticIsometry A C where
+  equiv := f.equiv.trans g.equiv
+  map_quad x := by
+    change C.quadForm (g.equiv (f.equiv x)) = A.quadForm x
+    rw [g.map_quad, f.map_quad]
+
+instance : Category FiniteQuadraticModule where
+  Hom := QuadraticIsometry
+  id := QuadraticIsometry.id
+  comp f g := QuadraticIsometry.comp g f
+  id_comp f := by cases f; rfl
+  comp_id f := by cases f; rfl
+  assoc f g h := by cases f; cases g; cases h; rfl
+
+/-- The discriminant quadratic module of an even lattice. -/
+axiom discriminantModule (L : EvenLattice) : FiniteQuadraticModule
+
+/-- Isometries descend to discriminant-form isometries. -/
+axiom discriminantMap {L M : EvenLattice} (f : L ⟶ M) :
+    discriminantModule L ⟶ discriminantModule M
+
+axiom discriminantMap_id (L : EvenLattice) : discriminantMap (𝟙 L) = 𝟙 _
+
+axiom discriminantMap_comp {L M N : EvenLattice} (f : L ⟶ M) (g : M ⟶ N) :
+    discriminantMap (f ≫ g) = discriminantMap f ≫ discriminantMap g
+
+/-- Discriminant forms as an actual functor on the isometry categories. -/
+noncomputable def discriminantFunctor : EvenLattice ⥤ FiniteQuadraticModule where
+  obj := discriminantModule
+  map := discriminantMap
+  map_id := discriminantMap_id
+  map_comp := discriminantMap_comp
 
 end LeanLattices.Categories.IntegralLat

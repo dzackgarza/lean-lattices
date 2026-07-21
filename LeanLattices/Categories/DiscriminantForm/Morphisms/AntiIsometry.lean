@@ -13,6 +13,19 @@ structure AntiIsometry (A₁ A₂ : FiniteQuadraticModule) where
   equiv : A₁.carrier ≃+ A₂.carrier
   anti_preserves : ∀ x, A₂.quadForm (equiv x) = -A₁.quadForm x
 
+/-- A primitive isometric embedding of integral lattices. -/
+structure PrimitiveEmbedding (S L : IntegralLattice) where
+  hom : SymmBilinModuleCat.Hom
+    ⟨S.carrier, S.form, S.isSymm⟩ ⟨L.carrier, L.form, L.isSymm⟩
+  primitive : IsPrimitive S L hom
+
+/-- Discriminant gluing datum attached to a primitive embedding. -/
+structure PrimitiveEmbeddingDiscriminantData (S L : IntegralLattice) where
+  complementModule : FiniteQuadraticModule
+  sourceModule : FiniteQuadraticModule
+  sourceCarrier : sourceModule.carrier = discrGroup S
+  antiIsometry : AntiIsometry sourceModule complementModule
+
 /-- Nikulin's theorem: primitive embeddings S ↪ L (with L even unimodular)
     are classified by anti-isometries of discriminant forms.
     Specifically, there is a bijection between:
@@ -21,13 +34,11 @@ structure AntiIsometry (A₁ A₂ : FiniteQuadraticModule) where
     See Nikulin, Theorem 1.14.4. -/
 axiom primitive_embedding_anti_isometry_bijection
     (S L : IntegralLattice) (hUnimod : IsUnimodular L) :
-    Prop  -- The full bijection statement
+    PrimitiveEmbedding S L ≃ PrimitiveEmbeddingDiscriminantData S L
 
 /-- Anti-isometry induced by a primitive embedding. -/
-axiom induced_anti_isometry
-    (S L : IntegralLattice)
-    (f : SymmBilinModuleCat.Hom ⟨S.carrier, S.form, S.isSymm⟩ ⟨L.carrier, L.form, L.isSymm⟩)
-    (hPrim : IsPrimitive S L f) (hUnimod : IsUnimodular L) :
-    discrGroup S ≃+ discrGroup (⟨L.carrier, L.form, L.isSymm, L.nondegenerate⟩ : IntegralLattice)
+axiom induced_anti_isometry (S L : IntegralLattice)
+    (f : PrimitiveEmbedding S L) (hUnimod : IsUnimodular L) :
+    PrimitiveEmbeddingDiscriminantData S L
 
 end LeanLattices.Categories.DiscriminantForm

@@ -1,6 +1,8 @@
 import Mathlib.Algebra.Module.Basic
 import Mathlib.CategoryTheory.Category.Basic
-import Mathlib.CategoryTheory.ModuleCat.Basic
+import Mathlib.Algebra.Category.ModuleCat.Basic
+import Mathlib.LinearAlgebra.FreeModule.PID
+import Mathlib.LinearAlgebra.TensorProduct.Basic
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 
@@ -35,9 +37,5 @@ instance : Category ZLat.{u} where
   id_comp _ := rfl
   comp_id _ := rfl
   assoc _ _ _ := rfl
-
-/-- Realification scalar extension functor M |-> M ⊗_Z R. -/
-def realification (M : ZLat.{u}) : Type u :=
-  M.carrier ⊗[ℤ] ℝ
 
 end LeanLattices.Categories.FiniteFreeZModule

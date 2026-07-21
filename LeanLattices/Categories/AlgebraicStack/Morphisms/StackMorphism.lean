@@ -6,6 +6,6 @@ namespace LeanLattices.Categories.AlgebraicStack
 structure StackMorphism (S T : KSBAStack) where
   map : S.stack → T.stack
   map_objects : ∀ x, S.objects x → T.objects (map x)
-  representable : Prop
+  representable : Function.Injective map
 
 end LeanLattices.Categories.AlgebraicStack

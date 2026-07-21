@@ -1,4 +1,6 @@
 import LeanLattices.Categories.FiniteFreeZModule.Objects.Basic
+import Mathlib.LinearAlgebra.FreeModule.PID
+import Mathlib.LinearAlgebra.FreeModule.Int
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 
@@ -10,21 +12,13 @@ def IsSaturated (L : ZLat) (M : Submodule ℤ L.carrier) : Prop :=
 
 /-- Saturation of a submodule: the smallest saturated submodule containing M.
     Equivalently, M_sat = { x ∈ L | ∃ n > 0, n • x ∈ M }. -/
-def Saturation (L : ZLat) (M : Submodule ℤ L.carrier) : Submodule ℤ L.carrier where
-  carrier := { x | ∃ (n : ℤ), n ≠ 0 ∧ n • x ∈ M }
-  add_mem' := by
-    intro a b ⟨n, hn, hna⟩ ⟨m, hm, hmb⟩
-    exact ⟨n * m, mul_ne_zero hn hm, by
-      rw [mul_smul, mul_comm, mul_smul]
-      exact M.add_mem (M.smul_mem m hna) (M.smul_mem n hmb)⟩
-  zero_mem' := ⟨1, one_ne_zero, by rw [one_smul]; exact M.zero_mem⟩
-  smul_mem' := by
-    intro c x ⟨n, hn, hnx⟩
-    exact ⟨n, hn, by rw [smul_comm]; exact M.smul_mem c hnx⟩
+def Saturation (L : ZLat) (M : Submodule ℤ L.carrier) : Submodule ℤ L.carrier :=
+  Submodule.span ℤ {x | ∃ (n : ℤ), n ≠ 0 ∧ n • x ∈ M}
 
 /-- The saturation contains the original submodule. -/
 theorem le_saturation (L : ZLat) (M : Submodule ℤ L.carrier) : M ≤ Saturation L M := by
   intro x hx
+  apply Submodule.subset_span
   exact ⟨1, one_ne_zero, by rwa [one_smul]⟩
 
 /-- Index of a sublattice M in L, when finite. -/
@@ -34,5 +28,14 @@ noncomputable def sublatticeIndex (L : ZLat) (M : Submodule ℤ L.carrier) [Fint
 /-- Rank of a ZLat. -/
 noncomputable def rank (L : ZLat) : ℕ :=
   Module.finrank ℤ L.carrier
+
+/-- Smith normal form data supplied by Mathlib for a sublattice and a chosen basis. -/
+noncomputable def smithNormalForm {ι : Type*} [Finite ι] (L : ZLat)
+    (b : Module.Basis ι ℤ L.carrier) (M : Submodule ℤ L.carrier) :=
+  M.smithNormalForm b
+
+/-- Saturation preserves the ambient rank. -/
+axiom saturation_rank (L : ZLat) (M : Submodule ℤ L.carrier) :
+    Module.finrank ℤ (Saturation L M) = Module.finrank ℤ M
 
 end LeanLattices.Categories.FiniteFreeZModule

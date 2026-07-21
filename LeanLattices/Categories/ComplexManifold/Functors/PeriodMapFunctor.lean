@@ -12,7 +12,7 @@ structure PeriodMapFunctor where
   map_identity : ∀ S, (map ({
     map := id
     map_objects := fun _ => id
-    representable := True
+    representable := Function.injective_id
   } : StackMorphism S S)).map = id
   map_composition : Prop
 
