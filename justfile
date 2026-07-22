@@ -25,3 +25,6 @@ test-commit: test
 
 # Run the CI quality gate
 test-ci: test
+
+[private]
+test-push: test-ci
