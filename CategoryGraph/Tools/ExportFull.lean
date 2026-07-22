@@ -121,7 +121,7 @@ def run : IO UInt32 := do
           IO.println manifest
           pure 0
 
-end CategoryGraph.Tools.ExportFull
-
 def main : IO UInt32 :=
-  CategoryGraph.Tools.ExportFull.run
+  run
+
+end CategoryGraph.Tools.ExportFull

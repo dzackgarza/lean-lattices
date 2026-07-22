@@ -12,5 +12,10 @@ name = "CategoryGraph"
 
 [[lean_exe]]
 name = "category-graph-export"
-root = "CategoryGraph.Tools.ExportFull"
+root = "CategoryGraph.Tools.ExportMain"
+supportInterpreter = true
+
+[[lean_exe]]
+name = "category-graph-axiom-audit"
+root = "CategoryGraph.Tools.AxiomAuditMain"
 supportInterpreter = true
