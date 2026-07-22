@@ -27,4 +27,8 @@ test-commit: test
 test-ci: test
 
 [private]
-test-push: test-ci
+_axiom-audit:
+    @lake exe category-graph-axiom-audit
+
+[private]
+test-push: test-ci _axiom-audit
