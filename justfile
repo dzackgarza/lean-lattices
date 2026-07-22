@@ -1,15 +1,27 @@
+# lean-lattices — Lean libraries for lattice mathematics and categorical foundations.
+#
+# Lake owns compilation and Mathlib supplies the dependency cache. This file keeps the
+# public build and quality-check entry points stable for the repository.
+
 set dotenv-load := true
 
+# Show available recipes
 default:
     @just --list
 
-# Build every module imported by the LeanLattices library root.
+# Build both libraries and the registry exporter
 build:
     @lake build
 
-# Run the repository proof gate.
+# Fetch Mathlib's prebuilt compilation cache
+cache:
+    @lake update
+    @lake exe cache get
+
+# Run the complete repository quality gate
 test: build
-    @if rg -n '\bsorry\b' LeanLattices --glob '*.lean'; then \
+    @lake exe category-graph-export >/dev/null
+    @if rg -n '\bsorry\b' LeanLattices CategoryGraph --glob '*.lean'; then \
         echo 'Lean source contains sorry declarations.' >&2; \
         exit 1; \
     fi
@@ -17,8 +29,12 @@ test: build
 [private]
 test-commit: test
 
-[private]
-test-push: test
+# Run the CI quality gate
+test-ci: test
 
 [private]
-test-ci: test
+_axiom-audit:
+    @lake exe category-graph-axiom-audit
+
+[private]
+test-push: test-ci _axiom-audit

@@ -1,7 +1,7 @@
 name = "lean_lattices"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["LeanLattices"]
+defaultTargets = ["LeanLattices", "CategoryGraph", "category-graph-export"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -16,3 +16,16 @@ rev = "v4.32.0"
 
 [[lean_lib]]
 name = "LeanLattices"
+
+[[lean_lib]]
+name = "CategoryGraph"
+
+[[lean_exe]]
+name = "category-graph-export"
+root = "CategoryGraph.Tools.ExportMain"
+supportInterpreter = true
+
+[[lean_exe]]
+name = "category-graph-axiom-audit"
+root = "CategoryGraph.Tools.AxiomAuditMain"
+supportInterpreter = true
