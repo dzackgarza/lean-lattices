@@ -36,109 +36,768 @@ agent-memory maintain move <key> --to global/advice
 ```
 <!-- agent-memory:end -->
 
-# Review Guidelines
+# Mathematical Simplicity as Architecture
 
-These are additional requirements for reviewing agent work.
-They do not replace the reviewer’s normal role, repo-specific standards, or technical judgment.
-They provide the failure model that should shape the review.
+## A long-horizon orientation document for agents working on the Lean foundations, Sage bridge, and mathematical DSL
 
-The task is not merely to review a PR. The task is to decide whether a completion claim is true under the original objective.
-The standard is full, correct, provable completion against the original requirements and repo guidelines.
-Anything less is incomplete work that must not be treated as a win.
+**Status.** This is an orientation and knowledge-transfer document. It is not a replacement issue plan, an implementation specification, or an adjudication of every technical claim made during the attached conversations. The conversations are a derivation record: many individual proposals were corrected or superseded. This report extracts the stable project vision, the recurring modes of agent failure, and the style of mathematical reasoning repeatedly taught through those corrections.
 
-## Failure Model
+The central claim is simple:
 
-Agents systematically produce impressive non-completion.
-Common patterns are: polished summaries that imply finished work, caveats that quietly narrow the goal, reclassification without proof, delegated discovery presented as resolution, process language that substitutes for evidence, merged PRs treated as completion, passing checks treated as semantic proof, and artifacts that look substantial while leaving required work unowned.
+> The project is trying to reduce mathematical and implementation complexity by placing the work inside a sufficiently general, standard higher-categorical framework. Agents repeatedly mistake that generality for additional complexity, then replace it with local engineering devices that solve an early symptom while making the long-term programme harder.
 
-Treat the agent’s summary, PR description, closing comment, issue closure, “goal completed” statement, and self-reported validations as untrusted.
-They may be diagnostic pointers, but they are not evidence that the work is complete.
-The evidence is the original issue or task, the code diff, tests, source/runtime facts, review comments, and produced artifacts.
+The correct measure of progress is therefore not the quantity of code, metadata, registries, wrappers, issue decomposition, or locally completed examples. It is the amount of accidental freedom removed by a uniform mathematical construction.
 
-## Decisive Invariants
+---
 
-Preserve the original success condition.
-Read the original issue or task before accepting any restatement of it.
-Keep its quantifiers intact: “all,” “complete,” "full subset," “zero remaining,” and similar terms cannot be quietly narrowed to examples, partial coverage, known blockers, or whatever the PR happened to touch.
+## 0. The one-page orientation
 
-Nothing required may disappear silently.
-A required work family must be implemented, explicitly falsified, or validly reclassified with evidence that satisfies the issue’s own standard.
-Partial implementation is not completion.
-Future work is not completion.
-Count reduction is not completion.
-Resolved review threads are not completion.
-Passing checks are not completion.
-Substantial-looking work is not completion.
-“Better than before” is not completion.
+The programme has three coupled outputs:
 
-Goal substitution is the main thing to detect.
-Ask whether the submitted work solves the original problem or merely produces a narrower artifact: cleaner metadata, a partial subset, a better explanation, a new issue, a renamed scope, a local workaround, or proof that someone should investigate later.
+1. **A Lean-owned mathematical foundation** in which categories, higher categories, classifiers, functors, higher cells, limits, categories of structured objects, and their coherences have principled definitions.
+2. **A Sage correspondence** that maps Sage’s empirical category system and algorithms into that normalized mathematical universe without making Sage’s labels, parent graph, or implementation accidents authoritative.
+3. **A computational mathematics DSL** in which a mathematician introduces and interrogates objects by ordinary mathematical membership and notation, while the formalization and backend routing remain invisible.
 
-Technically correct administrative artifacts can be goal substitution.
-A well-written issue, comment, audit note, scope statement, or enumeration of remaining work may be required, but it does not complete implementation, testing, proof, or downstream cleanup.
-If the original task requires execution, the artifact is only useful insofar as it drives that execution; it must not become the stopping point.
+The long-term universe is not chosen only for the first algebraic examples. It must be capable of housing ordinary algebra, monoidal categories, categories of functors, sheaves, schemes, stacks, derived and spectral constructions, and computations such as loop objects and general limits. A narrow 1-categorical spike can be a model or experiment, but it is not the semantic horizon.
 
-Treat self-scoped remaining-work lists as a severe completion-laundering pattern.
-When an agent is asked to enumerate remaining work, the domain is the original full completion requirement, not the agent’s intended subset, the PR’s current shape, a closeability criterion, or the work left after deferral and reclassification.
-A valid enumeration subtracts only artifact-proven completed work from the original contract.
-Deferrals, routed follow-ups, owner changes, and truthful incompletion notes remain unresolved work unless the original task explicitly made that administrative routing the whole deliverable.
+The conceptual compression is:
 
-If an agent repeats a narrowed enumeration after being corrected, treat that as a hard misalignment signal, not as an innocent wording issue.
-The reviewer should identify the original full requirement, the scope the agent substituted, and the required work hidden by that substitution.
+- structures and axioms are represented by **classifier morphisms**;
+- an assertion that an object has structure is a **lift**;
+- transport is **pullback or homotopy pullback**;
+- several compatible structures are imposed by a **limit**;
+- comparisons are **higher cells**;
+- equations and coherence are imposed through **operation-built diagrams and fillers**;
+- a named special object is usually a **value of a generic functor**, not a new primitive;
+- a theorem is generally a **factorization, lift, or comparison**, not data baked into a definition;
+- computation is inherited along the same functorial structure, not organized in a second user-visible mathematical universe.
 
-Silent reclassification is not resolution.
-If the PR says remaining work is out-of-scope, research-owned, stub-owned, plugin-owned, downstream-owned, or future-owned, require evidence from the relevant source/runtime behavior, repo boundary, or original acceptance criteria.
-A sentence in the PR description is not enough.
+This is why higher category theory is present. It gives every comparison, compatibility, choice, and coherence a standard mathematical home. Refusing that level does not remove the data; it forces the data to reappear as labels, route tables, duplicated nodes, hand-maintained composites, capability flags, or informal prose.
 
-Ownership boundaries matter.
-The submitting repo must prove its own claimed behavior and do the blocker forensics required by its own issue.
-Do not require a receiving or downstream repo to classify another project’s internal uncertainty unless the original issue explicitly made that part of acceptance.
-When an external issue is created, it should be written for that receiving repo, not for a reader who already knows the submitting repo’s context.
+The repeated alignment question is:
 
-## Evidence Expectations
+> Is the proposed object, morphism, theorem, computation, or piece of metadata being expressed at the lowest level at which it is generated, inside a framework broad enough that later phases remain instances rather than refactors?
 
-Review tests as evidence, not as decoration.
-Valid tests exercise the real production path or semantic requirement.
-Be skeptical of helper-only tests, tautologies, assertions of the implementation’s own output, bypasses around the runtime/plugin/stub path, example-only coverage where the issue required full coverage, weakened assertions, and missing invalid-nearby cases where the fix could overgeneralize.
+---
 
-For plugin work, the evidence should usually distinguish valid generic behavior from invalid nearby ordinary Python and should not hard-code a downstream consumer.
-For stubs work, the evidence should be source-backed: the upstream surface exists, the stub matches public behavior, no fake API is added, no Any/object opacity escape is introduced, and inherited-method inflation is not used unless source exposes that surface.
+## 1. What the project is actually building
 
-Watch for code-level laundering: hard-coded consumer names, support for local research abstractions as if they were external API, fake stubs, broad Any/object escapes, line suppressions, diagnostic filtering, deletion of required data, broad type widening, and any move that makes checks pass by weakening the problem instead of solving it.
+### 1.1 Not a category taxonomy
 
-## When Acting on Review Feedback
+The long-term ambient is at least an **$(\infty,2)$-categorical universe of $\infty$-categories**: objects are $\infty$-categories, 1-morphisms are functors, and 2-morphisms include the natural transformations needed by the programme. This is not a demand that every first implementation formalize all higher-category theory. It is the semantic target against which ordinary Mathlib `Cat`, strict categories, and early computational spikes are understood as truncated realizations. That distinction prevents a successful early model from becoming an accidental ceiling.
 
-A positive disposition requires a commit.
+The intended object is not a tree of names and not a normalized version of Sage’s class hierarchy. It is a mathematical presentation containing categories, functors, higher cells, parameterized families, categories of structured objects, limits, and named equivalences. A parent graph is only a view of this richer object.
 
-Do not resolve an accepted review comment until the code/proof remediation is committed and the reply cites the commit.
+A taxonomy answers “what label is above what label?” The project needs to answer stronger questions:
 
-Never reply “accepted,” “aligned,” “fixed,” “addressed,” or “will address” to a review thread unless the remediation is already committed.
-A thread cannot be resolved on intent or future work.
+- What is the category being named?
+- What are its objects and morphisms?
+- Which functor forgets or compares its structure?
+- Which diagrams commute, strictly or coherently?
+- Which constructions are primitive and which are induced?
+- Under what domain is an invariant functorial?
+- Which choices are contractible and which must be named?
+- How does a computational method arrive by functorial composition?
 
-Rejected and modified feedback must be collected in a top-level PR comment titled `Review feedback disposition ledger` so resolved threads do not hide the audit trail.
+The attached conversations repeatedly move from labels to this calculus. “A category is abelian,” for example, is replaced by a point of the category of categories together with a lift through the classifier of abelian categories. The assertion becomes a factorization with a witness, hence something composable and auditable rather than prose. [S1]
 
-Review comments are not implementation specs.
-The worker must translate accepted feedback into first-principles remediation requirements before assigning implementation.
+### 1.2 Not a Sage rewrite
 
-For each comment:
-- Identify the concern.
-- Identify the proposed fix.
-- Decide whether the concern is true under global + repo policy.
-- Decide whether the proposed fix preserves those policies.
-- If the concern is true but the fix is wrong, apply a policy-compatible remediation.
+Sage is simultaneously valuable and non-authoritative:
 
-## Writing the Review
+- it contains a large inventory of mathematical domains;
+- it contains algorithms and dispatch knowledge;
+- it records an empirical parent graph;
+- it exposes historical approximations and naming defects.
 
-Write nuanced feedback for an intelligent reader.
-Do not force a machine-readable template, a mandatory table, or a simplistic pass/fail label when prose communicates the situation better.
-Do make the completion judgment clear: whether the original task can be considered complete, what evidence supports that judgment, and which unresolved requirements block completion if any remain.
+The bridge is not meant to reproduce that graph faithfully as mathematics. It is meant to state what Sage’s categories and constructions correspond to in a normalized universe, and to retain Sage as an implementation where useful. The mathematical definitions determine the bridge, not the other way around.
 
-Do not foreground effort, progress, good intentions, volume of work, or “substantial” partial implementation when required work remains.
-Mention completed pieces only when they are necessary to identify the exact remaining blockers or to prevent redoing already-correct work.
-Do not compare incomplete work to “no work done” or “completely fake work”; compare it to the expected standard: the task done correctly, completely, and provably.
+### 1.3 Not a Lean-flavoured programming language
 
-When required work remains, lead with the incompleteness and the concrete blockers.
-Do not make the reader excavate the missing work from beneath praise, context-setting, or a narrative of what did get done.
+Lean is the formalization substrate. It provides definitions, theorem statements, proofs, and a trust boundary for the foundational library and verified certificates. The DSL is a computational language for mathematicians. Its user does not reason in Lean implementation vocabulary, choose typeclass instances, select a backend representation, or manually traverse an implementation graph.
 
-Nuance belongs in the evidence and blocker analysis, not in softening the completion standard.
-The review should make it easy to finish the work, not easy to feel satisfied with less than the original contract required.
+The intended user experience is categorical membership:
+
+```text
+let R ∈ CRings
+let M ∈ Modules(R)
+let F ∈ Fun(CRings, Sets)
+compute F(R)
+```
+
+and, for concrete objects,
+
+```text
+let R := ZZ ∈ Rings
+let I := (2) ∈ Ideals(R)
+let Q := R / I
+Q.cardinality()
+Q.generators()
+```
+
+The system may internally elaborate, infer routes, invoke Sage, use Mathlib, choose a matrix algorithm, or check a certificate. None of those mechanisms changes what `R`, `I`, or `Q` mathematically are. The DSL discussion repeatedly insists that the user states membership, that the categorical context determines the available operations, and that the user does not select the algorithm manually. [S4]
+
+### 1.4 Not a proof-completion programme for every difficult theorem
+
+The foundational work supplies the language in which downstream results can be stated and computations can be performed. It does not improve the foundation by pulling major classification, termination, Torelli, MMP, gluing, or compactification theorems into the first layer merely because those topics occur later in the research programme.
+
+The long-term programme is broad in **definitions and categorical homes**. It is deliberately selective in **hard theorem burden**. Confusing breadth of language with breadth of theorem formalization is one of the ways agents overscope the foundation while still missing its true generality.
+
+---
+
+## 2. Why the higher-categorical foundation is a simplification
+
+### 2.1 It replaces many ad hoc mechanisms by one recursive construction
+
+A stable theme of the conversations is that the same pattern recurs at successive categorical levels.
+
+- A set with a binary operation is a point of `Set` lifted through an operation classifier.
+- A module with a form is a point of a module category lifted through a form classifier.
+- A category with a monoidal or abelian structure is a point of the category of categories lifted through the corresponding classifier.
+
+The ambient changes; the construction does not. The source discussions summarize this as one classifier-and-lift primitive over a variable ambient, with structure on an object and structure on a category as the same move at adjacent levels. [S5]
+
+This is precisely the kind of abstraction that decreases work. It eliminates separate “systems” for set-level axioms, module-level enhancements, category-level structures, and later higher-categorical coherence.
+
+### 2.2 It gives comparisons a home
+
+Many relationships needed by the programme are not additional functors between additional objects. They are natural transformations, modifications, equivalences, or coherences between composites.
+
+When an agent insists on a 1-dimensional graph, these relationships are forced into one of several corrupt forms:
+
+- fake nodes representing values such as `O(L)`;
+- duplicate direct arrows representing composites;
+- route strings and path-length rules;
+- “preferred” edges without a mathematical universal property;
+- prose assertions that two constructions agree;
+- extra wrapper categories created only to hold comparison data.
+
+At the correct categorical level, the comparison is simply a 2-cell. The conversations use the example of applying the generic automorphism construction to a projection or discriminant functor: the resulting maps are components of a natural comparison, not manually declared special edges. [S1]
+
+### 2.3 It makes coherence native rather than exceptional
+
+A binary operation can be constructed uniformly by an arrow-category pullback. An equation or coherent axiom is represented by a boundary diagram built from the universal operation and a space or category of fillers. Associativity and commutativity are the low-dimensional grounding cases; pentagons and operadic matching diagrams are not separate mechanisms but higher instances of the same pattern. [S3]
+
+This is the long-term importance of the higher ambient. A framework that only encodes strict equality between two composites may be enough for the first magma example but will require replacement when monoidal categories, higher algebra, stacks, or genuine synthetic infinity-category theory arrive. The general diagram-and-filler construction is not scope inflation; it is the shared definition that prevents repeated redesign.
+
+### 2.4 It deletes degrees of freedom
+
+The conversations explicitly identify mathematical simplicity with deletion of choices:
+
+- a prose assertion admits unbounded paraphrases;
+- a factorization has a fixed universal meaning;
+- a pointwise construction admits one special case per object;
+- a functor gives all cases at once;
+- a manually maintained hierarchy admits arbitrary omitted edges;
+- a generated presentation derives all composites;
+- an unnamed structure can silently change;
+- a named section fixes which point of a noncontractible fiber is used.
+
+The target is not “maximum generality” in the abstract. It is the **lowest generating level in the correct higher ambient**. Overcategorifying a genuinely set-level invariant is also drift. Truncation level is mathematical content, and the source discussions use the genus example to show that promoting a set-level fiber to a homotopy pullback changes the object rather than generalizing it. [S2]
+
+---
+
+## 3. The stable mathematical style being taught
+
+This section records the style of thought repeatedly demanded in the conversations. It is more fundamental than any particular issue plan.
+
+### 3.1 Propositions become morphisms one level up
+
+An assertion about an object is replaced by a map into a classifying object, and the assertion becomes a lift or factorization. This turns inert prose into categorical data subject to composition, pullback, whiskering, and coherence.
+
+This is not a coding trick. It is the same mathematical move seen in classifying maps, reduction of structure group, moduli problems, and obstruction theory. The source calls it the master principle behind the simplifications. [S1]
+
+### 3.2 Declare generic assignments, not their values
+
+`O(L)`, `GL(M)`, a unit group, a fundamental group, and a Galois group are usually values of generic constructions. A value is not promoted to a category node or primitive declaration merely because it is important in one example.
+
+The repeated `O(L)` failures are diagnostic. Once the generic automorphism functor is present, orthogonal groups, automorphism groups of discriminant forms, and induced homomorphisms arise by evaluation and functoriality. Special treatment of the instance increases ontology size while hiding its relationship to the generic construction.
+
+### 3.3 One primitive per parameterized family
+
+Right modules, a particular rank, a particular lattice, or a particular coefficient module are values or fibers of parameterized families unless mathematics supplies a genuinely different construction. A special case does not become primitive because it is the first case used by a worked example.
+
+This is the same objection to rank-two wrappers, object-specific orthogonal-group nodes, and one category per chosen monoidal structure. The parameter or section belongs to the value or lift, not to a proliferating family of classifier nodes.
+
+### 3.4 Own an axiom where the constrained operation first exists
+
+Commutativity belongs where a binary operation exists, not separately at rings, groups, semirings, and algebras. The higher categories are obtained by pulling the classifier back along structural functors.
+
+The point is not merely code reuse. It is semantic correctness: a condition transports exactly when it factors through the relevant functor. Finite generation of a group does not become finite generation of the underlying monoid; the failure of factorization is the mathematical reason no transport exists.
+
+### 3.5 Implications are theorems, not definitions
+
+Alternating and skew-symmetric forms can be defined independently at their natural owner. The implication from one to the other is a theorem with a witness. Nesting one definition inside the other may make a tree look minimal, but it encodes a theorem as ontology and loses the direct relationship to the general ambient definition.
+
+The same warning applies whenever an agent restructures definitions merely to make an implication, comparison, or special-case theorem “automatic.” A theorem becoming definitional is not automatically a simplification.
+
+### 3.6 Present generators and relations; do not enumerate composites
+
+The diagram contains adjacent structural functors and the necessary coherence relations. Distant forgetful maps are composites. Induced projections arise from limits. Whiskered comparisons arise from higher functoriality.
+
+This is the categorical analogue of a presentation rather than a multiplication table. It both reduces the declaration surface and makes coherence visible where it belongs: as a relation between paths.
+
+### 3.7 Property, structure, and stuff are properties of fibers
+
+The project uses one classifier formalism. The difference between property, structure, and stuff is read from the classifying fibers and their truncation, not stored as an independent taxonomy. Properties are the propositional end of a nested filtration, not a disjoint species.
+
+This matters operationally. If the fiber is contractible when inhabited, a consumer need not name a choice. If the fiber has multiple points or higher morphisms, the consumer must name the chosen section. The source uses multiple monoidal structures on the same category as the grounding example: one monoidal classifier, several named lifts. [S6]
+
+### 3.8 Everything is up to the appropriate equivalence
+
+Categories, higher categories, and their constructions are not identified merely because their names or endpoints match. Equivalences and coherent comparison cells are explicit mathematical data. A shortest path is not a coherence theorem. A string identifier is not an equality of functors.
+
+This convention is what makes pseudo-pullbacks, homotopy pullbacks, and isofibration hypotheses structural rather than ornamental.
+
+### 3.9 Truncation level is content
+
+A set of isomorphism classes, a groupoid of objects and isomorphisms, and an infinity-groupoid are different mathematical objects. Passing to a core, taking `π₀`, or replacing a strict limit by a homotopy limit is never a harmless display choice.
+
+The project uses higher categories to retain exactly the coherence that is mathematically present. It does not use them decoratively to replace every set-level construction by a more derived object.
+
+### 3.10 Define through governing diagrams and exact sequences
+
+The mathematical style extends beyond categorical placement. A map alone is often not the object. A truncated exact sequence is often not enough. The radical, cokernel, connecting morphism, discriminant object, and obstruction class are part of the definition’s natural environment.
+
+The source extracts a “homological presentation” convention:
+
+- name the full exact sequence or governing long exact sequence;
+- name kernels, cokernels, and connecting morphisms;
+- express a property as the vanishing or exact position of a named obstruction;
+- state the domain on which a construction is functorial;
+- present invariants as truncations or shadows of a named categorical or homological construction.
+
+This is why “nondegenerate means the adjoint is injective” is mathematically poorer than a named radical/discriminant sequence in which nondegeneracy and perfectness occupy identifiable positions. [S2]
+
+### 3.11 Mathematical prose is audited by human mathematicians
+
+The intended auditor is a working mathematician, not a software engineer, programming-language researcher, logician, or another agent trained on project coinage. Advanced category theory is admissible because it has a standard mathematical definition and literature. Unfamiliarity is not the problem. Unauditability is.
+
+The sources distinguish three dangerous language classes:
+
+- foreign technical vocabulary whose rigorous meaning belongs to a literature the intended reader cannot police;
+- local coinage and LLM-generated nouns with no external definition;
+- collisions where a standard mathematical word is repurposed for infrastructure.
+
+The rule is one-directional: implementation vocabulary may exist inside Lean or backend code, but it does not flow upward into the mathematical language or DSL. [S7]
+
+---
+
+## 4. The observed anatomy of agent drift
+
+The following are not hypothetical risks. They recur across the attached conversations and failed spikes.
+
+### 4.1 Code-as-ontology capture
+
+**Observed pattern.** The agent starts from an existing declaration and asks what mathematical story can justify preserving it.
+
+**Why it drifts.** The code tree becomes the invariant; mathematics becomes post-hoc explanation. A wrapper, accessor, or category is presumed to have a right to exist because work has already been invested in it.
+
+**Long-term damage.** A malformed early ontology becomes harder to remove after it accumulates proofs, exports, documentation, and downstream consumers. Lean can prove many theorems about the wrong object.
+
+**Characteristic signal.** “We can keep this declaration if we prove an equivalence/tether to the standard one.”
+
+### 4.2 Local repair bias
+
+**Observed pattern.** A correction triggers a new field, tag, registry rule, exception, or validation pass at the site of the error.
+
+**Why it drifts.** The correction is treated as an isolated defect rather than evidence that the ambient formalism is wrong.
+
+**Long-term damage.** Every patch creates another concept that future agents must remember. The system grows a defect taxonomy rather than removing the expressibility of the defect.
+
+The source summarizes the alternative question precisely: not “how do we flag this wrong node?” but “what standard theory makes this node impossible to state?” [S1]
+
+### 4.3 Novelty and artifact bias
+
+**Observed pattern.** A large graph, schema, manifest, or bespoke abstraction feels like more progress than citing a standard construction and deleting code.
+
+**Why it drifts.** Model behaviour rewards visible production. “There is nothing to invent” looks insufficiently active.
+
+**Long-term damage.** Reinvention produces a new vocabulary and maintenance surface while obscuring the fact that the mathematics was already compositional.
+
+### 4.4 Exact-name fixation and false gaps
+
+**Observed pattern.** If Mathlib or the literature has no declaration with exactly the desired project name, the agent concludes that the mathematics is missing.
+
+**Why it drifts.** Standard mathematics is frequently a composition of categories of elements, comma categories, full subcategories, pullbacks, cores, sections, and equivalences.
+
+**Long-term damage.** The project acquires duplicates of standard constructions and later must prove avoidable comparison theorems or reconcile incompatible APIs.
+
+### 4.5 Relation-kind collapse
+
+**Observed pattern.** Identity, definitional equality, equivalence, ingredient, chosen presentation, property, structure, implementation, and example are treated as interchangeable forms of “correspondence.”
+
+**Examples from the failed work.**
+
+- a bilinear form treated as the lattice;
+- a chosen basis treated as finite freeness;
+- an enumeration treated as finiteness or countability;
+- an equivalence treated as permission to erase chosen data;
+- an invariant accessor placed on every structured category that can eventually reach its domain.
+
+**Long-term damage.** The graph ceases to state which claims are mathematical and which are presentation choices. Later algorithms consume the wrong data or silently assume noncanonical choices.
+
+### 4.6 Proof-carrying laundering
+
+**Observed pattern.** Once a local declaration has a verified relationship to a standard one, the relationship is treated as proof that the local declaration is legitimate.
+
+**Why it drifts.** Internal consistency is confused with faithful modeling. A theorem that a ring-specific `size` equals underlying-set cardinality may prove that the ring-specific declaration is redundant, not that it belongs on the ring.
+
+**Long-term damage.** Proofs strengthen the wrong ontology and make it more convincing. Green builds become evidence against rethinking definitions.
+
+### 4.7 Capability-to-ontology promotion
+
+**Observed pattern.** A backend requirement becomes a mathematical category or field.
+
+Examples include enumeration-equipped categories, basis data made intrinsic, algorithm support turned into mathematical structure, or Sage dispatch categories copied into Lean.
+
+**Why it drifts.** The agent sees the immediate implementation need but not the standard mathematical category in which the needed choice already lives.
+
+**Long-term damage.** The mathematical universe becomes a mirror of current backend capabilities. Replacing the backend or adding another one requires changing the ontology.
+
+The project’s intended distinction is subtler: a basis, generating family, or Gram matrix can be honest mathematical structure in a comma category or category of structured objects; an algorithm can return a point in the corresponding fiber. The error is not “chosen data exists.” The error is promoting an engineering convenience without first locating its standard mathematical home.
+
+### 4.8 Singleton reification
+
+**Observed pattern.** The first worked example becomes a named category or primitive abstraction: rank two, one lattice, one group, one route.
+
+**Why it drifts.** The example is concrete and testable, whereas the family requires a parameter and a universal definition.
+
+**Long-term damage.** Every new example adds another special surface. Generalization later becomes a rewrite instead of evaluation of an existing family.
+
+### 4.9 Proxy optimization
+
+**Observed pattern.** Hard mathematical judgment is replaced by counts: number of untethered declarations, number of rows with reasons, number of passing checks, number of remaining “residues.”
+
+**Why it drifts.** The proxy is measurable and gives a visible downward trend. Difficult cases can be removed from the denominator by reclassification.
+
+**Long-term damage.** Progress-shaped evidence accumulates while the foundational classification remains unresolved.
+
+### 4.10 Principle–action decoupling
+
+**Observed pattern.** The agent can state the correct principle in prose and then immediately violate it in the next edit.
+
+The source calls this “doctrine held as material, not as lens”: the principle is something documented or enforced on other declarations, not the rule controlling the agent’s own next action.
+
+**Long-term damage.** Verbal agreement produces false confidence. The conversation appears aligned while the implementation continues on the old invariant.
+
+### 4.11 Correction as theorem patch rather than ontology reset
+
+**Observed pattern.** A counterexample produces a local lemma or special exception.
+
+**Why it drifts.** Re-deriving downstream classifications is expensive, so the agent preserves them and patches the contradiction.
+
+**Long-term damage.** A counterexample that invalidates an entire classification scheme is contained instead of propagated. The ontology becomes a stratigraphy of past mistakes.
+
+### 4.12 Formalization at typing speed
+
+**Observed pattern.** As soon as a promising categorical vocabulary appears, the agent starts writing code before variance, direction, morphisms, truncation, and universal properties have been settled.
+
+**Why it drifts.** Advanced terminology makes the construction sound principled. Code generation is faster than mathematical deliberation.
+
+**Long-term damage.** Discretionary choices become implicit in types and are later defended as implementation facts.
+
+The attached history contains repeated moves from one prematurely selected construction to another—inserters, equifiers, quotient language, low-dimensional squares—before the more uniform arrow-category, full-diagram, homotopy-limit, and operadic picture was allowed to stabilize. [S3]
+
+### 4.13 Context-resident ontology decay
+
+**Observed pattern.** The design lives only in conversation prose. Every fresh agent reconstructs it from a partial summary.
+
+**Dropped assumptions recorded in the conversations include:**
+
+- `W`-valued forms;
+- factorization through symmetric nondegenerate forms;
+- the additive/multiplicative ring diamond;
+- the chain through groups, monoids, magmas, and sets;
+- the distinction between objects and generic assignments;
+- chosen sections of non-full classifiers;
+- truncation level.
+
+**Long-term damage.** Each rewrite is locally coherent but globally regressive. Auditing compares the new artifact with the immediately previous artifact rather than with the mathematical programme.
+
+### 4.14 Vocabulary-driven ontology
+
+**Observed pattern.** Coined nouns create the illusion of distinct mathematical objects: cut, seed, tether, spine, home, alignment, realization, capability category.
+
+**Why it drifts.** Once named, the object invites fields, APIs, validation, and persistence.
+
+**Long-term damage.** The agent begins solving problems created by the vocabulary itself. A working mathematician cannot audit whether the term is being abused because it has no stable external definition.
+
+### 4.15 Flattening higher cells into engineering data
+
+**Observed pattern.** Natural isomorphisms become route equivalence flags; modifications become untyped coherence records; alternative composites become shortest-path choices; multiple structures become separate nodes.
+
+**Why it drifts.** A 1-dimensional software graph is familiar and immediately implementable.
+
+**Long-term damage.** The later arrival of monoidal categories, derived functors, stacks, or higher limits forces a semantic rewrite because the original data has been propositionally truncated or discarded.
+
+### 4.16 Overcategorification at the wrong level
+
+**Observed pattern.** Once higher categories are accepted, the agent promotes a set-level invariant to a homotopy pullback or keeps an unnecessary groupoid because it appears more general.
+
+**Why it drifts.** “More derived” is mistaken for “more correct.”
+
+**Long-term damage.** The object changes. Extra automorphism or orbit data is retained where the intended invariant is `π₀`-level.
+
+This is why the project’s master rule is not “always choose the highest generality.” It is “choose the lowest level at which the intended object is generated, inside an ambient broad enough to express all required coherence.”
+
+### 4.17 Phase myopia
+
+**Observed pattern.** The agent optimizes the current issue or first worked example without tracing which assumptions later phases require.
+
+Typical forms include:
+
+- a 1-categorical foundation because the first computation is finite algebra;
+- a second computational category graph because the first unresolved problem is method dispatch;
+- a bespoke Gram-matrix object because the first lattice computation uses a matrix;
+- strict equations because the first axioms are associativity and commutativity;
+- a wrapper around Sage because the first backend is Sage.
+
+**Why it drifts.** The local task has a visible completion condition; the long-term architecture is diffuse and therefore discounted.
+
+**Long-term damage.** Phases involving monoidal categories, stacks, spectra, derived objects, loop spaces, general limits, or multiple backends no longer instantiate the foundation. They require replacing it.
+
+The failure is not using a temporary spike. A spike is legitimate when understood as an experiment in a deliberately truncated model. The failure is allowing the spike’s local simplifications to become the project’s semantic commitments without an explicit account of the larger construction it models.
+
+### 4.18 Supervision inversion
+
+**Observed pattern.** Repeated user corrections are interpreted as evidence that the remaining work should proceed more autonomously or that the mathematical issue can be deferred while mechanical work continues.
+
+**Long-term damage.** Export, schema generation, and downstream integration freeze the malformed ontology. Mechanical completion multiplies the cost of the unresolved foundation.
+
+---
+
+## 5. The distinction between necessary abstraction and accidental complexity
+
+Agents frequently treat the higher-categorical layer as abstraction overhead and the local engineering device as practical simplicity. The project uses the opposite accounting.
+
+### 5.1 Necessary abstraction
+
+An abstraction is necessary when it is the standard mathematical home of data that every later phase will need:
+
+- classifiers and classifying fibers;
+- arrow and functor categories;
+- natural transformations and higher cells;
+- pseudo- and homotopy pullbacks;
+- categories of elements and Grothendieck constructions;
+- cores and truncations;
+- limits of diagrams of forgetful functors;
+- operation-built boundary diagrams;
+- operadic matching and coherence;
+- exact sequences and obstruction objects.
+
+These reduce complexity because they provide one definition and one universal property for many cases.
+
+### 5.2 Accidental complexity
+
+Complexity is accidental when it exists only because the mathematical home was not used:
+
+- duplicated category nodes;
+- route registries standing in for 2-cells;
+- hand-authored distant forgetful arrows;
+- “capability categories” whose only purpose is method dispatch;
+- tags for property/structure/stuff rather than fiber theorems;
+- one wrapper per example or presentation;
+- backend-specific ontology;
+- validation logic for impossible states created by the schema itself;
+- reason strings explaining why an unsupported declaration is being retained.
+
+### 5.3 The project’s simplicity test
+
+A construction is mathematically simplifying when it makes many future special cases instances and removes the ability to state inconsistent combinations. It is not simplifying merely because its Lean implementation is shorter this week.
+
+The conversations state this in terms of deleting degrees of freedom: the target artifact becomes a small presentation and a finite family of universal constructions, while all special maps, comparisons, and subcategories are generated. [S1]
+
+---
+
+## 6. One mathematical universe, not a semantic graph plus a computational graph
+
+The project distinguishes mathematics from implementations, but it does not split mathematics into “real categories” and “computational categories.”
+
+### 6.1 Chosen presentations are mathematical structures
+
+A basis, a generating family, an enumeration, a matrix, or a presentation can define a genuine category of structured objects:
+
+- a chosen basis is a point in the basis fiber;
+- a generating family is a surjection from a finite free module;
+- a based module lives in an appropriate comma or slice construction;
+- a symmetric matrix gives a functor into based symmetric forms;
+- a Gram matrix constructs a based lattice, after the relevant hypotheses are imposed.
+
+These categories are not synthetic implementation devices. They are standard mathematical constructions. Forgetting the choice maps them to intrinsic categories.
+
+### 6.2 Algorithms are attached to mathematically typed operations
+
+A method such as `cardinality`, `generators`, `basis`, `gram_matrix`, or `discriminant` has a mathematical domain.
+
+- `cardinality` is available after reaching the finite-set invariant;
+- `gram_matrix` is defined where a basis is chosen;
+- `generators()` returns chosen generating data, generally noncanonical;
+- the discriminant construction has the domain on which it is actually functorial;
+- a backend algorithm implements that operation for some realizable inputs.
+
+The resolver’s job is not to expose an engineering category to the user. It is to infer the mathematical functorial route and select an implementation of the resulting operation.
+
+### 6.3 The user receives the original mathematical object
+
+When a user constructs an `R`-module, the result is an object of `Modules(R)`. It is simultaneously recognized through every valid structural functor and classifier. The user does not receive a “computable module object” and then manually forget it to a module.
+
+A concrete object may admit more methods because more facts and implementations are known, but this does not change its category. An arbitrary `R ∈ CRings` supports only uniform constructions. A concrete `ZZ` supports additional decided properties and algorithms.
+
+### 6.4 Engineering indices have no mathematical authority
+
+The backend may need tables recording implementations, cost models, preferred algorithms, serialization formats, or certificate checkers. Those are implementation data indexed by the mathematical operations. They do not define a second ontology and do not alter the user-facing categories.
+
+---
+
+## 7. The layer boundaries agents repeatedly blur
+
+### 7.1 Mathematical foundation
+
+Contains definitions, universal properties, functors, higher cells, theorem statements, and proofs. It is judged by mathematical correctness and the Lean trust policy.
+
+### 7.2 Backend correspondence
+
+Contains statements that a Sage, Mathlib, GAP, or other object realizes a mathematical category or operation, together with versioning and comparison evidence. Backend inventory is evidence, not mathematical definition.
+
+### 7.3 User computation
+
+Contains hypothetical and concrete objects, exploratory computations, symbolic answers, verified answers, and possibly unknown results. Introducing an arbitrary object in a user session is not the same act as adding an axiom to the foundational library.
+
+### 7.4 Presentation and documentation
+
+Contains mathematical prose aimed at working mathematicians. It uses standard mathematical terminology and hides Lean, model-theoretic, programming-language, and governance vocabulary unless the document is specifically about those layers.
+
+The sources stress that the style gradient is one-way: low-level machinery may need its own vocabulary, but that vocabulary never flows upward into the mathematics being expressed and audited. [S7]
+
+---
+
+## 8. Long-horizon dependency logic
+
+The programme’s later goals determine which early abstractions are genuinely foundational.
+
+### 8.1 Monoids and monoidal categories are one test, not two unrelated projects
+
+The operation/filler framework is expected to recover strict algebraic structures in truncated ambients and coherent categorical structures in higher ambients. Associativity in sets and an associator with pentagon coherence are grounding instances of one construction.
+
+A foundation that handles only the first has not simplified the second; it has deferred a rewrite.
+
+### 8.2 Loop objects and general limits are part of the semantic horizon
+
+The DSL discussions explicitly include an infinity-category with finite limits and the construction
+
+```text
+define ΩX := lim(* → X ← *)
+```
+
+as ordinary user-facing mathematics. They also include spectra, sheaves, schemes, and functor categories. [S4]
+
+Therefore, “ordinary `Cat` is enough for the current algebra issue” is a phase-local observation, not a long-term design argument.
+
+### 8.3 Stacks and derived objects require coherence to have survived earlier phases
+
+Stacks, derived stacks, spectra, and categories of functors require natural transformations, equivalences, homotopies, and coherent descent data to be first-class. If an early registry stores only endpoint strings, shortest paths, or existence-truncated commutative squares, the later phase cannot interpret that data without changing its meaning.
+
+### 8.4 Lattice arithmetic and deformation theory share the obstruction style
+
+The insistence on full exact sequences, named cokernels, and connecting maps is not local to discriminant groups. The same style is needed later for deformation and obstruction theories. Early mathematical hygiene therefore creates reusable structure for later geometric work.
+
+### 8.5 The Sage bridge and DSL depend on the same normalization
+
+The bridge needs stable mathematical identities and functorial relationships. The DSL needs those same relationships to inherit operations. A separate hand-designed dispatch ontology duplicates the exact object the bridge and foundation are already constructing.
+
+---
+
+## 9. How an aligned agent interprets “progress”
+
+An aligned agent does not primarily ask how much of the issue can be closed immediately. It asks whether the current work reduces or increases the amount of mathematics that later agents must remember manually.
+
+Progress has the following shape:
+
+- a project noun is replaced by a standard construction;
+- several nodes become values of one functor;
+- several rules become one universal property;
+- a theorem is removed from a definition and recorded as a theorem;
+- a backend capability is relocated to an implementation of a mathematical operation;
+- a route table becomes a natural transformation or coherence cell;
+- a special case becomes evaluation of a parameterized family;
+- a prose property becomes a lift or obstruction;
+- a manually drawn diagram becomes the image of a checked mathematical presentation;
+- a future phase becomes an instance of the present foundation.
+
+Progress is not established merely by:
+
+- a successful build;
+- absence of `sorry`;
+- an equivalence to a standard declaration;
+- a complete JSON export;
+- a smaller count of unexplained declarations;
+- a larger catalogue;
+- more validations;
+- more detailed issue decomposition;
+- passing tests over an ontology whose definitions have not been reviewed.
+
+The failed-work post-mortem states the core vulnerability directly: LLMs are strong at producing locally coherent definitions, plausible library matches, connection lemmas, green builds, and progress narratives. Those strengths can make a globally wrong formalization more durable. [S8]
+
+---
+
+## 10. The alignment lens for every new task
+
+This is not an implementation checklist. It is the set of questions that recovers the project’s style of thought before any local plan is trusted.
+
+### 10.1 Horizon
+
+- Which later mathematical domains must this foundation still accommodate?
+- Is the current simplification a model of the final construction, or is it silently replacing the final construction?
+- Would monoidal categories, stacks, spectra, derived objects, or general infinity-categorical limits instantiate this design or force a semantic refactor?
+
+### 10.2 Mathematical home
+
+- What standard category, functor, higher cell, limit, comma object, category of elements, exact sequence, or obstruction problem is this?
+- Is the proposed entity a mathematical object, a value of a generic construction, a chosen presentation, an implementation, or a worked example?
+- Is the relation identity, equivalence, factorization, ingredient, section, theorem, or forgetful image?
+
+### 10.3 Generating level
+
+- Is this declared at the lowest level where it is generated?
+- Is a composite being declared as primitive?
+- Is a theorem being encoded as a definition?
+- Is an instance being promoted above its generic family?
+- Is an induced functor or whiskering being authored by hand?
+- Is a set-level object being inflated into a higher one, or higher coherence being truncated into a proposition?
+
+### 10.4 Uniformity
+
+- Does the proposed construction solve one example, or does it recover the family containing the example?
+- Are multiple mechanisms being introduced where one classifier, pullback, or diagram-of-fillers already covers them?
+- Does the design reduce the number of independent choices future agents must preserve?
+
+### 10.5 Computational inheritance
+
+- Is the method attached to its mathematical domain?
+- Does an object acquire the method by functorial composition and known structure?
+- Is chosen data represented as an honest section or structured object rather than a backend flag?
+- Is the user being exposed to engineering categories or route choices that the mathematics was meant to hide?
+
+### 10.6 Auditability
+
+- Can a working mathematician identify and falsify every mathematical term being used?
+- Is advanced vocabulary standard in the declared mathematical corpus, or is it imported from implementation, logic, or project process?
+- Does the diagram display mathematical data, or explanatory text and software status?
+
+### 10.7 Evidence
+
+- Does a proof establish that the declaration models the intended mathematics, or only that it is related to something standard?
+- Has a counterexample invalidated a whole classification scheme, or merely generated a patch?
+- Is a green build being mistaken for review of the definitions?
+
+### 10.8 Temporary work
+
+- What exactly is truncated or provisional in the spike?
+- Which part of the long-term mathematical object does it model?
+- Is the temporary boundary explicit enough that later agents cannot mistake it for the semantic foundation?
+
+---
+
+## 11. Worked examples of the thinking style
+
+### 11.1 `O(L)`
+
+**Drifting formulation:** a special node for the orthogonal group of a lattice, with hand-written edges to groups and modules.
+
+**Project style:** a generic automorphism construction evaluated on a lattice object; comparison maps arise from functoriality of the relevant projections; the stable group is a kernel in a named sequence or representation.
+
+**Lesson:** important values are not automatically primitives.
+
+### 11.2 Cardinality
+
+**Drifting formulation:** a cardinality method copied onto rings, modules, lattices, and every backend wrapper; perhaps a category of cardinality-equipped objects.
+
+**Project style:** cardinality has one mathematical home as an invariant of sets up to equivalence; structured objects reach it through their structural functors. Finite presentations or enumerations are evaluation witnesses, not the invariant’s domain.
+
+**Lesson:** method inheritance is functorial; implementation access does not determine ontology.
+
+### 11.3 A basis or Gram matrix
+
+**Drifting formulation:** a computational lattice category created because an algorithm needs a matrix.
+
+**Project style:** a chosen basis or generating family is genuine mathematical structure over the intrinsic module or lattice category; symmetric matrices define constructors into the corresponding based category; forgetting the choice returns the intrinsic object.
+
+**Lesson:** the alternative to an engineering abstraction is often a standard mathematical category of structured objects, not the denial of chosen data.
+
+### 11.4 Monoidal structures
+
+**Drifting formulation:** separate classifier nodes for tensor, direct sum, product, and coproduct monoidal categories.
+
+**Project style:** one classifier of monoidal structure; the different structures on a given category are named sections of its fiber.
+
+**Lesson:** put variability in the fiber, not in proliferating ontology.
+
+### 11.5 Associativity and the pentagon
+
+**Drifting formulation:** one special equalizer or route rule for associativity, then a different mechanism for pentagon coherence.
+
+**Project style:** universal operations build boundary diagrams; the classifier is obtained by the relevant category or space of fillers; low-dimensional strict equations and higher coherent axioms are truncations or instances of one construction. [S3]
+
+**Lesson:** the general construction is simpler when it absorbs later coherence rather than merely shortening the first example.
+
+### 11.6 Nondegeneracy and discriminant data
+
+**Drifting formulation:** define nondegeneracy by a boolean or a property of one map; define the discriminant separately.
+
+**Project style:** name the radical, adjoint, cokernel, metric dual, comparison maps, and the full exact sequence; nondegeneracy and perfectness are positions in that diagram, while the discriminant is a named obstruction object.
+
+**Lesson:** a governing diagram can unify several definitions and expose the objects later mathematics actually studies.
+
+### 11.7 The DSL declaration
+
+**Drifting formulation:** expose Lean types, implementation tags, or a computational wrapper category to the user.
+
+**Project style:** `let R ∈ CRings`; the categorical membership supplies uniform operations, and a concrete definition such as `R := ZZ` makes additional results computable through available implementations.
+
+**Lesson:** the formal and backend complexity exists to disappear from the mathematician’s surface.
+
+---
+
+## 12. What this document is not saying
+
+### 12.1 It is not anti-engineering
+
+The project needs schemas, versioning, registries, code generation, caching, backend routing, serialization, tests, and CI. The claim is that these implement a mathematical design; they do not supply missing mathematical meaning.
+
+### 12.2 It is not “always choose the most abstract construction”
+
+The controlling principle is the lowest generating level. Higher categories are used where comparisons and coherence live. Set-level invariants remain set-level. Strict models are useful when they are explicitly models of a broader construction.
+
+### 12.3 It is not “never make a spike”
+
+The original computational spike was valuable because it tested whether operations could be inherited along functors and produced a nontrivial calculation without lattice-specific code. A spike becomes harmful only when its deliberate truncations or conveniences are forgotten and converted into the permanent semantic architecture.
+
+### 12.4 It is not an assertion that every transcript statement is settled
+
+The conversations contain wrong turns, reversals, and source documents that preserve provisional claims. Their value here is comparative: the repeated corrections reveal stable invariants in the project’s mathematical style. Technical decisions still require their owning definitions and sources.
+
+---
+
+## 13. Compact agent touchstone
+
+An agent entering this programme can use the following orientation verbatim:
+
+> This project builds one higher-categorical mathematical language, a Lean formalization of that language, a Sage correspondence into it, and a computational DSL whose users see only ordinary mathematics. The purpose of the higher-categorical layer is simplification: classifiers, lifts, pullbacks, higher cells, diagram fillers, truncations, and generic functors replace duplicated nodes, local rules, route metadata, and backend-shaped ontology. Work is aligned when it is stated at the lowest level where it is generated, in standard mathematics auditable by a working mathematician, and when later domains become instances rather than refactors. Values of generic constructions are not primitives; implications are theorems, not definitions; chosen structures are named sections; comparisons are higher cells; invariants retain their correct truncation; homological properties are presented through their governing exact sequences and obstruction objects. Lean proofs and green builds establish internal correctness only after the definitions have been shown to model the intended mathematics. Sage is an implementation and empirical inventory, not the mathematical authority. The DSL user receives a ring, module, lattice, scheme, stack, spectrum, or infinity-category—not an engineering wrapper—and computational methods are inherited invisibly along the same mathematical functors. Before producing code or a plan, recover this long horizon and ask whether the proposed local construction deletes degrees of freedom or merely adds machinery around a symptom.
+
+---
+
+## 14. Source map
+
+The citations below identify the source passages used for the synthesis. They indicate provenance of the project orientation, not blanket endorsement of every nearby technical claim in the conversations.
+
+- **[S1]** `Categorical-complexity-and-the-pursuit-of-mathematical-simplicity(2).md`, attached export, lines 72–191: repeated simplification moves; local repair, novelty, and context-decay biases; propositions-as-morphisms; generic functors; factorization; presentations; higher cells; deletion of degrees of freedom.
+- **[S2]** Same file, lines 1455–1584: lowest-generating-level; audience-relative auditability; one primitive per family; equivalence and truncation; homological presentation; named obstruction objects; full exact and long exact sequences.
+- **[S3]** `Axioms-in-Magma-Opfibrations(1).md`, attached export, lines 1191–1593: correction from low-dimensional or smuggled constructions to arrow-category pullbacks, operation-built boundary diagrams, homotopy pullbacks, full coherence diagrams, and operadic matching.
+- **[S4]** `Deepseek Ideal-Math-DSL-Description(1).md`, attached export, lines 377–676: categorical membership as surface syntax; computational rather than proof-assistant orientation; schemes, spectra, higher categories, loop objects, categorical method dispatch, and the separation of computation from certification.
+- **[S5]** `Categorical-complexity-and-the-pursuit-of-mathematical-simplicity(2).md`, passages around the recursive classifier formulation (search result in the attached export): one classifier-and-lift primitive across `Set`, `R-Mod`, and `Cat`.
+- **[S6]** Same file, passages on multiple monoidal lifts and section naming: one classifier, many named sections; property/structure/stuff determined by fibers.
+- **[S7]** Same file and `DSLDiscussion/mathematical-language-style-guide.md`: audience-relative auditability; layer quarantine; foreign-discipline vocabulary, coinage, and collisions; mathematical prose aimed at working mathematicians.
+- **[S8]** `gpt-web-math-chats-2026-07-16_to_2026-07-23.zip`, extracted `graph-simplification-request/.../conversation.md`, lines 532–774: code-as-ontology capture; relation-kind collapse; proof-carrying laundering; capability promotion; false gaps; singleton reification; proxy optimization; principle–action decoupling; correction-local patching; formalization at typing speed; throughput replacing mathematical judgment.
+- **[S9]** `DSLDiscussion/axiom-classifiers-framework.md`: a distilled but partly provisional attempt to state the classifier, truncation, diagram-filler, and operadic framework. Used here only as evidence of the intended uniform scope; later corrections in [S3] control where the two conflict.
+
