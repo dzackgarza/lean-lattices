@@ -48,6 +48,15 @@ standard mathematics auditable by a working mathematician, such that later domai
 rather than refactors.
 
 The full orientation — including the anatomy of agent drift and the alignment lens every
-task should pass through — is [AGENTS.md](AGENTS.md). The governing execution state is
-the issue ledger ([#1](https://github.com/dzackgarza/lean-lattices/issues/1): north star,
-decision records) and the consolidated work units (#30–#40, #21–#29).
+task should pass through — is [AGENTS.md](AGENTS.md). The **mathematical constitution** —
+the definitions, variance conventions, truncations, exact sequences, and settled
+conventions this repository formalizes — is [FOUNDATIONS.md](FOUNDATIONS.md)
+("Mathematical Foundations of the Categorical Research Language", 66 sections: the
+(∞,2)-ambient, classifiers and lifts, operation and diagram-extension classifiers, forms
+and intrinsic lattices, discriminant theory, sites/stacks/deformation theory, the SageCat
+comparison category, the computational-language semantics, categorical presentations,
+exact packages, and convex/reflection/period/degeneration geometry). AGENTS.md governs
+*how* agents work; FOUNDATIONS.md governs *what* the mathematics is. The governing
+execution state is the issue ledger
+([#1](https://github.com/dzackgarza/lean-lattices/issues/1): north star, decision
+records) and the consolidated work units (#30–#40, #21–#29).
