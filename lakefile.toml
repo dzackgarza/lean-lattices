@@ -7,6 +7,9 @@ defaultTargets = ["LeanLattices", "CategoryGraph", "category-graph-export"]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
+# The header linter enforces Mathlib's internal copyright-block + module-docstring
+# placement convention, which this downstream repo does not adopt; disable just it.
+weak.linter.style.header = false
 maxSynthPendingDepth = 3
 
 [[require]]
