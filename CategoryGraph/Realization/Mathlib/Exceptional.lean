@@ -2,14 +2,18 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Algebra.Category.Semigrp.Basic
-import Mathlib.Algebra.Field.Defs
-import Mathlib.CategoryTheory.Category.Cat
-import Mathlib.CategoryTheory.ConcreteCategory.Basic
-import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import Mathlib.CategoryTheory.Types.Basic
-import CategoryGraph.Realization.Mathlib.Foundation
+module
+
+public import Mathlib.Algebra.Category.Semigrp.Basic
+public import Mathlib.Algebra.Field.Defs
+public import Mathlib.CategoryTheory.Category.Cat
+public import Mathlib.CategoryTheory.ConcreteCategory.Basic
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
+public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+public import Mathlib.CategoryTheory.Types.Basic
+public import CategoryGraph.Realization.Mathlib.Foundation
+
+@[expose] public section
 
 /-!
 # Exceptional hosts

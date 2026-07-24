@@ -1,9 +1,13 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.DualAndDiscriminant
-import LeanLattices.StandardLattices
-import LeanLattices.DiscriminantForms
-import LeanLattices.CoxeterAndReflectiveLattices
-import LeanLattices.EnriquesSurfaceTheory
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.DualAndDiscriminant
+public import LeanLattices.StandardLattices
+public import LeanLattices.DiscriminantForms
+public import LeanLattices.CoxeterAndReflectiveLattices
+public import LeanLattices.EnriquesSurfaceTheory
+
+@[expose] public section
 
 /-!
 # Nikulin Discriminant Forms and Overlattice Gluing

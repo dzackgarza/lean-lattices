@@ -1,4 +1,8 @@
-import LeanLattices.Categories.IntegralLat.Morphisms.Overlattice
+module
+
+public import LeanLattices.Categories.IntegralLat.Morphisms.Overlattice
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

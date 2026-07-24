@@ -2,9 +2,13 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Core.Classifier
-import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
-import Mathlib.CategoryTheory.CatCommSq
+module
+
+public import CategoryGraph.Core.Classifier
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
+public import Mathlib.CategoryTheory.CatCommSq
+
+@[expose] public section
 
 /-!
 # Categorical pullback coercions for `Cat`

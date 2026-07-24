@@ -1,6 +1,10 @@
-import LeanLattices.Categories.Scheme.Objects.Surface
-import LeanLattices.Categories.KSBAPair.Objects.ReflexiveSheaf
-import Mathlib.Data.Complex.Basic
+module
+
+public import LeanLattices.Categories.Scheme.Objects.Surface
+public import LeanLattices.Categories.KSBAPair.Objects.ReflexiveSheaf
+public import Mathlib.Data.Complex.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.Scheme
 

@@ -1,6 +1,10 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.StandardLattices
-import LeanLattices.CoxeterAndReflectiveLattices
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.StandardLattices
+public import LeanLattices.CoxeterAndReflectiveLattices
+
+@[expose] public section
 
 /-!
 # Rational Polyhedral Cones, Fans, and Generalized Coxeter Semifans

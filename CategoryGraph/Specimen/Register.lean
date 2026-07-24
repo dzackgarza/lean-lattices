@@ -2,8 +2,12 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Specimen.Viability
-import CategoryGraph.Registry.Extension
+module
+
+public import CategoryGraph.Specimen.Viability
+public import CategoryGraph.Registry.Extension
+
+@[expose] public section
 
 /-!
 # Register the viability specimen into the Lean environment

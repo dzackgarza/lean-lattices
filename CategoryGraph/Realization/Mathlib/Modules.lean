@@ -2,14 +2,18 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Algebra.Category.ModuleCat.Basic
-import Mathlib.Algebra.Category.Ring.Basic
-import Mathlib.LinearAlgebra.FreeModule.Basic
-import Mathlib.RingTheory.Finiteness.Basic
-import Mathlib.Algebra.Ring.Opposite
-import Mathlib.CategoryTheory.Category.Cat
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import CategoryGraph.Realization.Mathlib.Algebra
+module
+
+public import Mathlib.Algebra.Category.ModuleCat.Basic
+public import Mathlib.Algebra.Category.Ring.Basic
+public import Mathlib.LinearAlgebra.FreeModule.Basic
+public import Mathlib.RingTheory.Finiteness.Basic
+public import Mathlib.Algebra.Ring.Opposite
+public import Mathlib.CategoryTheory.Category.Cat
+public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+public import CategoryGraph.Realization.Mathlib.Algebra
+
+@[expose] public section
 
 /-!
 # Mathlib module atoms

@@ -1,6 +1,10 @@
-import LeanLattices.Categories.IntegralLat.Objects.EvenLat
-import LeanLattices.Categories.IntegralLat.Objects.Dual
-import LeanLattices.Categories.DiscriminantForm.Objects.Basic
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.EvenLat
+public import LeanLattices.Categories.IntegralLat.Objects.Dual
+public import LeanLattices.Categories.DiscriminantForm.Objects.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

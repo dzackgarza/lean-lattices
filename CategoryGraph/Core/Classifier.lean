@@ -2,8 +2,12 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Core.Universes
-import Mathlib.CategoryTheory.Functor.FullyFaithful
+module
+
+public import CategoryGraph.Core.Universes
+public import Mathlib.CategoryTheory.Functor.FullyFaithful
+
+@[expose] public section
 
 /-!
 # Classifier

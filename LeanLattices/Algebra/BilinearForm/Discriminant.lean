@@ -1,4 +1,8 @@
-import LeanLattices.Algebra.BilinearForm.Dual
+module
+
+public import LeanLattices.Algebra.BilinearForm.Dual
+
+@[expose] public section
 
 /-!
 # Mathlib Upstream Discriminant Modules and Finite Forms

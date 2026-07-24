@@ -1,4 +1,8 @@
-import LeanLattices.Algebra.BilinearForm.Discriminant
+module
+
+public import LeanLattices.Algebra.BilinearForm.Discriminant
+
+@[expose] public section
 
 namespace LeanLattices.Categories.QuadraticModule
 

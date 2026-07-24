@@ -1,4 +1,8 @@
-import LeanLattices.IntegralLattice
+module
+
+public import LeanLattices.IntegralLattice
+
+@[expose] public section
 
 /-!
 # Mathlib Upstream General Bilinear Forms

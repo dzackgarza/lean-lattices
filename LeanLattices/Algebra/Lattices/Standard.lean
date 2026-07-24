@@ -1,5 +1,9 @@
-import LeanLattices.Algebra.BilinearForm.Discriminant
-import LeanLattices.StandardLattices
+module
+
+public import LeanLattices.Algebra.BilinearForm.Discriminant
+public import LeanLattices.StandardLattices
+
+@[expose] public section
 
 /-!
 # Standard Lattice Hierarchy

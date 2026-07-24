@@ -1,5 +1,9 @@
-import LeanLattices.Categories.SymmBilinModuleCat.Morphisms.Hom
-import Mathlib.CategoryTheory.ConcreteCategory.BundledHom
+module
+
+public import LeanLattices.Categories.SymmBilinModuleCat.Morphisms.Hom
+public import Mathlib.CategoryTheory.ConcreteCategory.BundledHom
+
+@[expose] public section
 
 namespace LeanLattices.Categories.SymmBilinModuleCat
 

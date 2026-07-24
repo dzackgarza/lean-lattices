@@ -1,4 +1,8 @@
-import LeanLattices.Categories.DivisorGroup.Objects.DivisorClass
+module
+
+public import LeanLattices.Categories.DivisorGroup.Objects.DivisorClass
+
+@[expose] public section
 
 namespace LeanLattices.Categories.DivisorGroup
 

@@ -1,5 +1,9 @@
-import LeanLattices.Categories.IntegralLat.Objects.Standard
-import LeanLattices.Categories.IntegralLat.Objects.Dual
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Standard
+public import LeanLattices.Categories.IntegralLat.Objects.Dual
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

@@ -1,5 +1,9 @@
-import LeanLattices.Categories.RationalFan.Objects.Fan
-import LeanLattices.Categories.IntegralLat.Morphisms.Involution
+module
+
+public import LeanLattices.Categories.RationalFan.Objects.Fan
+public import LeanLattices.Categories.IntegralLat.Morphisms.Involution
+
+@[expose] public section
 
 namespace LeanLattices.Categories.RationalFan
 

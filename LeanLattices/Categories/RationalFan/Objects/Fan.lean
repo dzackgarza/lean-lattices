@@ -1,4 +1,8 @@
-import LeanLattices.Categories.RationalFan.Objects.Cone
+module
+
+public import LeanLattices.Categories.RationalFan.Objects.Cone
+
+@[expose] public section
 
 namespace LeanLattices.Categories.RationalFan
 

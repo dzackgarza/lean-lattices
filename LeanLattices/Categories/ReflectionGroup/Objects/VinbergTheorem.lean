@@ -1,6 +1,10 @@
-import LeanLattices.Categories.ReflectionGroup.Objects.Representation
-import LeanLattices.Categories.ReflectionGroup.Objects.OrientedHyperbolic
-import LeanLattices.Categories.RationalFan.Objects.Cone
+module
+
+public import LeanLattices.Categories.ReflectionGroup.Objects.Representation
+public import LeanLattices.Categories.ReflectionGroup.Objects.OrientedHyperbolic
+public import LeanLattices.Categories.RationalFan.Objects.Cone
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ReflectionGroup
 

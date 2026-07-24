@@ -5,7 +5,7 @@
    "type": "git",
    "subDir": "lean",
    "scope": "",
-   "rev": "91f516fe5e28155755b3586112039143e0d976a5",
+   "rev": "15aa6c3f4cd7da25e54491c0f082f3402bcaddc2",
    "name": "aiReviewCiLean",
    "manifestFile": "lake-manifest.json",
    "inputRev": "main",

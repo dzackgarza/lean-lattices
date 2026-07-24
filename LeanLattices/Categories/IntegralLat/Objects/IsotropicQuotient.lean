@@ -1,4 +1,8 @@
-import LeanLattices.Categories.IntegralLat.Objects.Cusps
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Cusps
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

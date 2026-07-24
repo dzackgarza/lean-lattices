@@ -2,9 +2,13 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Core.CategoricalPullback
-import CategoryGraph.Core.Expr
-import CategoryGraph.Model.Atomic
+module
+
+public import CategoryGraph.Core.CategoricalPullback
+public import CategoryGraph.Core.Expr
+public import CategoryGraph.Model.Atomic
+
+@[expose] public section
 
 /-!
 # Interpretation — evaluate category expressions in an atomic model

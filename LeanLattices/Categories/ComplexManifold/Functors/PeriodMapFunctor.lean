@@ -1,5 +1,9 @@
-import LeanLattices.Categories.AlgebraicStack.Morphisms.StackMorphism
-import LeanLattices.Categories.ComplexManifold.Morphisms.HolomorphicMap
+module
+
+public import LeanLattices.Categories.AlgebraicStack.Morphisms.StackMorphism
+public import LeanLattices.Categories.ComplexManifold.Morphisms.HolomorphicMap
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ComplexManifold
 

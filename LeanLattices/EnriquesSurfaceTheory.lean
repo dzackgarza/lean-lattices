@@ -1,7 +1,11 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.StandardLattices
-import LeanLattices.DiscriminantForms
-import LeanLattices.CoxeterAndReflectiveLattices
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.StandardLattices
+public import LeanLattices.DiscriminantForms
+public import LeanLattices.CoxeterAndReflectiveLattices
+
+@[expose] public section
 
 /-!
 # Enriques Surfaces, Polarized Log Pairs, and Period Maps

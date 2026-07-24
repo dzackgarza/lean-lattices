@@ -1,8 +1,12 @@
-import Mathlib.Algebra.Module.Basic
-import Mathlib.CategoryTheory.Category.Basic
-import Mathlib.Algebra.Category.ModuleCat.Basic
-import Mathlib.LinearAlgebra.FreeModule.PID
-import Mathlib.LinearAlgebra.TensorProduct.Basic
+module
+
+public import Mathlib.Algebra.Module.Basic
+public import Mathlib.CategoryTheory.Category.Basic
+public import Mathlib.Algebra.Category.ModuleCat.Basic
+public import Mathlib.LinearAlgebra.FreeModule.PID
+public import Mathlib.LinearAlgebra.TensorProduct.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 

@@ -2,7 +2,11 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Tools.ExportFull
+module
+
+public import CategoryGraph.Tools.ExportFull
+
+@[expose] public section
 
 /-- Lake entry point for the Lean-registry exporter. -/
 def main : IO UInt32 :=

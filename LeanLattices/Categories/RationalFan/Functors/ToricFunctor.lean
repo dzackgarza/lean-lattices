@@ -1,6 +1,10 @@
-import LeanLattices.Categories.RationalFan.Objects.Fan
-import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
-import Mathlib.AlgebraicGeometry.Morphisms.Finite
+module
+
+public import LeanLattices.Categories.RationalFan.Objects.Fan
+public import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
+public import Mathlib.AlgebraicGeometry.Morphisms.Finite
+
+@[expose] public section
 
 namespace LeanLattices.Categories.RationalFan
 

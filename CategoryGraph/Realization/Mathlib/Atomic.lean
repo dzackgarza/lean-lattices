@@ -2,9 +2,13 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Realization.Mathlib.Exceptional
-import CategoryGraph.Realization.Mathlib.Modules
-import CategoryGraph.Model.Interpretation
+module
+
+public import CategoryGraph.Realization.Mathlib.Exceptional
+public import CategoryGraph.Realization.Mathlib.Modules
+public import CategoryGraph.Model.Interpretation
+
+@[expose] public section
 
 /-!
 # Full Mathlib `AtomicModel`

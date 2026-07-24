@@ -1,4 +1,8 @@
-import LeanLattices.Categories.SymmBilinModuleCat.Objects.Basic
+module
+
+public import LeanLattices.Categories.SymmBilinModuleCat.Objects.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.SymmBilinModuleCat
 

@@ -1,7 +1,11 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.StandardLattices
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.LinearAlgebra.BilinearForm.Properties
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.StandardLattices
+public import Mathlib.Analysis.InnerProductSpace.Basic
+public import Mathlib.LinearAlgebra.BilinearForm.Properties
+
+@[expose] public section
 
 /-!
 # Hyperbolic Reflective Lattices, Coxeter Diagrams, and Chamber Foldings

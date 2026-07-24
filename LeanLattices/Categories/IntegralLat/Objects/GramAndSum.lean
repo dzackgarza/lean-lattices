@@ -1,5 +1,9 @@
-import LeanLattices.Categories.IntegralLat.Objects.Basic
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Basic
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

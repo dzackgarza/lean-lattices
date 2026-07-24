@@ -1,4 +1,8 @@
-import LeanLattices.Categories.KSBAPair.Morphisms.DltContraction
+module
+
+public import LeanLattices.Categories.KSBAPair.Morphisms.DltContraction
+
+@[expose] public section
 
 namespace LeanLattices.Categories.KSBAPair
 
