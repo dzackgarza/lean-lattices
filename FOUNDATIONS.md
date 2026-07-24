@@ -7331,7 +7331,7 @@ Equivalently,
 \operatorname{Hom}_{\mathbf{Mon}}(M,G(B)).
 \]
 
-**Proof.** A bialgebra homomorphism \(\phi:R[M]\to B\) is determined by the elements \(\phi([m])\). Coalgebra compatibility makes these elements group-like, and algebra compatibility makes the assignment \(m\mapsto\phi([m])\) a monoid homomorphism. Conversely, a monoid homomorphism \(M\toG(B)\) extends uniquely by \(R\)-linearity to an algebra homomorphism \(R[M]\to B\), and the group-like identities imply compatibility with comultiplication and counit. \(\square\)
+**Proof.** A bialgebra homomorphism \(\phi:R[M]\to B\) is determined by the elements \(\phi([m])\). Coalgebra compatibility makes these elements group-like, and algebra compatibility makes the assignment \(m\mapsto\phi([m])\) a monoid homomorphism. Conversely, a monoid homomorphism \(M\to G(B)\) extends uniquely by \(R\)-linearity to an algebra homomorphism \(R[M]\to B\), and the group-like identities imply compatibility with comultiplication and counit. \(\square\)
 
 ### Corollary 13.6 (Group algebra adjunctions) {#cor-group-algebra-adjunctions}
 
