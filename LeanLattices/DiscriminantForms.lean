@@ -1,6 +1,10 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.DualAndDiscriminant
-import LeanLattices.StandardLattices
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.DualAndDiscriminant
+public import LeanLattices.StandardLattices
+
+@[expose] public section
 
 /-!
 # Discriminant Forms, Overlattices, and Primitive Embeddings

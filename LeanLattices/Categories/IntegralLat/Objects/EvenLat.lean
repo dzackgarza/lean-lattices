@@ -1,5 +1,9 @@
-import LeanLattices.Categories.IntegralLat.Objects.Basic
-import Mathlib.LinearAlgebra.QuadraticForm.Basic
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Basic
+public import Mathlib.LinearAlgebra.QuadraticForm.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

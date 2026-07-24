@@ -1,6 +1,10 @@
-import LeanLattices.Categories.IntegralLat.Objects.Basic
-import LeanLattices.Categories.IntegralLat.Objects.Dual
-import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Basic
+public import LeanLattices.Categories.IntegralLat.Objects.Dual
+public import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

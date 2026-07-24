@@ -1,4 +1,8 @@
-import LeanLattices.Categories.Scheme.Morphisms.RDPResolution
+module
+
+public import LeanLattices.Categories.Scheme.Morphisms.RDPResolution
+
+@[expose] public section
 
 namespace LeanLattices.Categories.Scheme
 

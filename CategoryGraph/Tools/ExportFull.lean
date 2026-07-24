@@ -2,9 +2,15 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Tools.ExportJson
-import CategoryGraph.Specimen.Register
-import Lean.Data.Json
+module
+
+public import CategoryGraph.Tools.ExportJson
+public import CategoryGraph.Specimen.Register
+public import Lean.Data.Json
+
+public meta import CategoryGraph.Tools.ExportJson
+
+@[expose] public section
 
 /-!
 # Registry export (`category-graph-export`)

@@ -1,4 +1,8 @@
-import LeanLattices.Categories.ReflectionGroup.Objects.OrientedHyperbolic
+module
+
+public import LeanLattices.Categories.ReflectionGroup.Objects.OrientedHyperbolic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ReflectionGroup
 

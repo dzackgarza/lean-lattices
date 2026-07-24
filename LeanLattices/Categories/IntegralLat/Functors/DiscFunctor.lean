@@ -1,4 +1,8 @@
-import LeanLattices.Categories.DiscriminantForm.Objects.Basic
+module
+
+public import LeanLattices.Categories.DiscriminantForm.Objects.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

@@ -1,4 +1,8 @@
-import LeanLattices.Categories.RationalFan.Objects.Semifan
+module
+
+public import LeanLattices.Categories.RationalFan.Objects.Semifan
+
+@[expose] public section
 
 namespace LeanLattices.Categories.RationalFan
 

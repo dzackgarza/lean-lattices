@@ -2,14 +2,18 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Algebra.Category.Semigrp.Basic
-import Mathlib.Algebra.Group.Defs
-import Mathlib.CategoryTheory.Category.Cat
-import Mathlib.CategoryTheory.ConcreteCategory.Basic
-import Mathlib.CategoryTheory.FintypeCat
-import Mathlib.CategoryTheory.GradedObject
-import Mathlib.CategoryTheory.Limits.Types.Colimits
-import CategoryGraph.Model.Atomic
+module
+
+public import Mathlib.Algebra.Category.Semigrp.Basic
+public import Mathlib.Algebra.Group.Defs
+public import Mathlib.CategoryTheory.Category.Cat
+public import Mathlib.CategoryTheory.ConcreteCategory.Basic
+public import Mathlib.CategoryTheory.FintypeCat
+public import Mathlib.CategoryTheory.GradedObject
+public import Mathlib.CategoryTheory.Limits.Types.Colimits
+public import CategoryGraph.Model.Atomic
+
+@[expose] public section
 
 /-!
 # Mathlib foundation atoms — Sets, Finite, Graded, BinaryOperation

@@ -2,11 +2,27 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Core.StructuralMap
-import CategoryGraph.Categories.Algebra.Rings
-import CategoryGraph.ForMathlib.CategoricalPullback
-import CategoryGraph.Registry.Entry
-import CategoryGraph.Realization.Mathlib.Atomic
+module
+
+public import CategoryGraph.Core.StructuralMap
+public import CategoryGraph.Categories.Algebra.Rings
+public import CategoryGraph.ForMathlib.CategoricalPullback
+public import CategoryGraph.Registry.Entry
+public import CategoryGraph.Realization.Mathlib.Atomic
+public import CategoryGraph.Specimen.ViabilityData
+public meta import CategoryGraph.Specimen.ViabilityData
+public meta import CategoryGraph.Core.Expr
+public meta import CategoryGraph.Core.Ids
+public meta import CategoryGraph.Core.StructuralMap
+public meta import CategoryGraph.Core.Normalize
+public meta import CategoryGraph.Categories.Algebra.Magmas
+public meta import CategoryGraph.Categories.Algebra.Rings
+public meta import CategoryGraph.Registry.Extension
+
+
+
+
+@[expose] public section
 
 /-!
 # Viability specimen — symbolic specification
@@ -46,16 +62,11 @@ def specimenAliases : AliasTable where
 
 /-! ## Named expressions (canonical bodies) -/
 
-def exprSets : CategoryExpr := .atom CategoryId.sets
-
 /-- The actual identity functor on the realized Sets specimen. -/
 noncomputable def specimenSetsIdentity :
     Normalized.Sets Realization.Mathlib.atomicModel.{0} ⟶
       Normalized.Sets Realization.Mathlib.atomicModel.{0} :=
   CategoryTheory.CategoryStruct.id _
-
-/-- Its typed symbolic counterpart. -/
-def exprSetsIdentity : FunctorExpr exprSets exprSets := .identity exprSets
 
 /-- The actual Sets declaration is certified against the symbolic node it realizes. -/
 noncomputable def specimenSetsRealization :
@@ -90,14 +101,7 @@ theorem specimenSetsIdentityRealization :
   simp [evalFunctor, exprSetsIdentity, exprSets, specimenFunctorSemantics,
     specimenSetsIdentity, evalCategory, Realization.Mathlib.evalAtom_sets]
 
-/-- A genuine categorical pullback of the two registered identity functors on Sets. -/
-def exprSetsIdentityPullback : CategoryExpr :=
-  .pullback (FunctorId.mk "fun.sets.identity") (FunctorId.mk "fun.sets.identity") exprSets
-
 /-- The registry-reference form evaluates through the same actual functor binding. -/
-def exprRegisteredSetsIdentity : FunctorExpr exprSets exprSets :=
-  .named (FunctorId.mk "fun.sets.identity")
-
 example :
     (evalCategory Realization.Mathlib.atomicModel.{0} Realization.Mathlib.specimenRingBinding
       specimenFunctorSemantics exprSetsIdentityPullback).isSome = true := by
@@ -157,8 +161,6 @@ example :
       (Normalized.Sets Realization.Mathlib.atomicModel)).isSome = true := by
   simp [EvaluatedFunctor.pullbackCategory]
 
-def exprMagmas : CategoryExpr := Categories.Algebra.Magmas.Magmas
-
 /-- The binary-operation classifier realizes the registered Magmas node. -/
 noncomputable def specimenMagmasRealization :
     CategoryRealization Realization.Mathlib.atomicModel.{0}
@@ -166,8 +168,6 @@ noncomputable def specimenMagmasRealization :
       exprMagmas (Normalized.Magmas Realization.Mathlib.atomicModel) := by
   refine ⟨Normalized.Magmas Realization.Mathlib.atomicModel, ?_, CategoryTheory.Equivalence.refl⟩
   rfl
-
-def exprSemigroups : CategoryExpr := Categories.Algebra.Magmas.Semigroups
 
 /-- The evaluator's identity reindex is equivalent to the authored Semigroups category. -/
 noncomputable def specimenSemigroupsRealization :
@@ -184,9 +184,6 @@ noncomputable def specimenSemigroupsRealization :
       Realization.Mathlib.atomicModelComponents, A, inverse]
   · exact (ForMathlib.reindexIdIso A).equiv
 
-def exprMonoids : CategoryExpr := Categories.Algebra.Magmas.Monoids
-def exprGroups : CategoryExpr := Categories.Algebra.Magmas.Groups
-
 /-- The Groups expression evaluates through the unital-magma inverse classifier. -/
 example :
     (evalCategory Realization.Mathlib.atomicModel.{0} Realization.Mathlib.specimenRingBinding
@@ -199,18 +196,6 @@ example :
     forgetfulToUnitalMagma, Realization.Mathlib.atomicModel,
     Realization.Mathlib.atomicModelComponents]
 
-/-- Magmas.Additive (one-tower role). -/
-def exprAdditiveMagmas : CategoryExpr :=
-  .refine exprMagmas ClassifierId.magmasAdditive none
-def exprAdditiveSemigroups : CategoryExpr :=
-  .refine exprAdditiveMagmas ClassifierId.magmasAssociative (some RouteId.additive)
-def exprAdditiveMonoids : CategoryExpr :=
-  .refine exprAdditiveSemigroups ClassifierId.magmasUnital (some RouteId.additive)
-def exprAdditiveGroups : CategoryExpr :=
-  .refine exprAdditiveMonoids ClassifierId.magmasInverse (some RouteId.additive)
-def exprMagmasWithTwoOperations : CategoryExpr :=
-  Categories.Algebra.Rings.MagmasWithTwoOperations
-
 /-- The opaque two-operation host is realized by its declared Mathlib category. -/
 noncomputable def specimenMagmasWithTwoOperationsRealization :
     CategoryRealization Realization.Mathlib.atomicModel.{0}
@@ -221,32 +206,7 @@ noncomputable def specimenMagmasWithTwoOperationsRealization :
     CategoryTheory.Equivalence.refl⟩
   rfl
 
-/-- Rings as the refined two-operation tower (not the unrefined host). -/
-def exprRings : CategoryExpr := Categories.Algebra.Rings.Rings
-def exprCommRings : CategoryExpr := Categories.Algebra.Rings.CommutativeRings
-/-- DivisionRings := Rings.Division (not Magmas.Inverse). -/
-def exprDivisionRings : CategoryExpr :=
-  .refine (.atom CategoryId.rings) ClassifierId.ringsDivision none
-def exprModules : CategoryExpr :=
-  .familyApp CategoryFamilyId.modules #[.ringVariable RingParameterId.r]
-/-- Right modules are left modules over the opposite ring. -/
-def exprRightModules : CategoryExpr :=
-  .familyApp CategoryFamilyId.modules #[.opposite (.ringVariable RingParameterId.r)]
-def exprFreeModules : CategoryExpr :=
-  .refine exprModules ClassifierId.modulesFree none
-def exprFinitelyGeneratedModules : CategoryExpr :=
-  .refine exprModules ClassifierId.modulesFinitelyGenerated none
-def exprFiniteRankModules : CategoryExpr :=
-  .refine exprModules ClassifierId.modulesFiniteRank none
-/-- Family application `Modules(R)` with its explicit ring parameter variable. -/
-def exprModulesFamily : CategoryExpr :=
-  exprModules
 /-- Implicit unnamed target: constructible, not a named registry node. -/
-def exprRingsGradedFinite : CategoryExpr :=
-  .refine
-    (.refine (.atom CategoryId.rings) ClassifierId.setsGraded none)
-    ClassifierId.setsFinite none
-
 def specimenNamed : NamedExpressionTable where
   bodyOf
     | ⟨"cat.sets"⟩ => some exprSets

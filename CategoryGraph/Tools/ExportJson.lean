@@ -2,8 +2,12 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Specimen.Viability
-import Lean.Data.Json
+module
+
+public import CategoryGraph.Specimen.Viability
+public import Lean.Data.Json
+
+@[expose] public section
 
 /-!
 # Shared JSON serialization for registry snapshots
@@ -19,13 +23,13 @@ open Lean
 open CategoryGraph
 open Specimen
 
-private def object (fields : List (String × Json)) : Json := Json.mkObj fields
+def object (fields : List (String × Json)) : Json := Json.mkObj fields
 
-private def parameterJson : ParameterExpr → Json
+def parameterJson : ParameterExpr → Json
   | .ringVariable id => object [("tag", "ringVariable"), ("id", id.raw)]
   | .opposite p => object [("tag", "opposite"), ("of", parameterJson p)]
 
-private def categoryExprJson : CategoryExpr → Json
+def categoryExprJson : CategoryExpr → Json
   | .atom id => object [("tag", "atom"), ("id", id.raw)]
   | .familyApp family args =>
       object [
@@ -58,7 +62,7 @@ private def categoryExprJson : CategoryExpr → Json
   | .opaque id => object [("tag", "opaque"), ("id", id.raw)]
   | .reference id => object [("tag", "reference"), ("id", id.raw)]
 
-private def originJson : CategoryOrigin → Json
+def originJson : CategoryOrigin → Json
   | .root => "root"
   | .atomicClassifierTotal => "atomicClassifierTotal"
   | .derivedNamed => "derivedNamed"
@@ -66,18 +70,18 @@ private def originJson : CategoryOrigin → Json
   | .opaqueCategory => "opaqueCategory"
   | .alias => "alias"
 
-private def visibilityJson : Visibility → Json
+def visibilityJson : Visibility → Json
   | .present => "present"
   | .semanticOnly => "semanticOnly"
   | .presentationHidden => "presentationHidden"
 
-private def parameterKindJson : CategoryFamilyParameterKind → Json
+def parameterKindJson : CategoryFamilyParameterKind → Json
   | .ringObject => "RingCatObject"
 
-private def varianceJson : CategoryFamilyVariance → Json
+def varianceJson : CategoryFamilyVariance → Json
   | .restrictionOfScalarsContravariant => "restrictionOfScalarsContravariant"
 
-private def functorRoleJson : FunctorRole → Json
+def functorRoleJson : FunctorRole → Json
   | .generatedStructural => "generatedStructural"
   | .opaqueStructuralPort => "opaqueStructuralPort"
   | .theoremBacked => "theoremBacked"
@@ -85,12 +89,12 @@ private def functorRoleJson : FunctorRole → Json
   | .constructorAction => "constructorAction"
   | .presentationOnly => "presentationOnly"
 
-private def admissibilityJson : StructuralAdmissibility → Json
+def admissibilityJson : StructuralAdmissibility → Json
   | .generated => "generated"
   | .declared => "declared"
   | .excluded => "excluded"
 
-private def functorExprJson {source target : CategoryExpr} : FunctorExpr source target → Json
+def functorExprJson {source target : CategoryExpr} : FunctorExpr source target → Json
   | .identity category => object [("tag", "identity"), ("category", categoryExprJson category)]
   | .named id => object [("tag", "named"), ("id", id.raw)]
   | .baseProjection (.mk id _ _ _) => object [("tag", "baseProjection"), ("id", id.raw)]
@@ -104,7 +108,7 @@ private def functorExprJson {source target : CategoryExpr} : FunctorExpr source 
       object [("tag", "compose"), ("first", functorExprJson first),
         ("second", functorExprJson second)]
 
-private def categoryJson (e : NamedCategoryEntry) : Json :=
+def categoryJson (e : NamedCategoryEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("canonicalName", e.canonicalName),
@@ -114,7 +118,7 @@ private def categoryJson (e : NamedCategoryEntry) : Json :=
     ("expression", categoryExprJson e.expression),
   ]
 
-private def categoryFamilyJson (e : CategoryFamilyEntry) : Json :=
+def categoryFamilyJson (e : CategoryFamilyEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("canonicalName", e.canonicalName),
@@ -127,7 +131,7 @@ private def categoryFamilyJson (e : CategoryFamilyEntry) : Json :=
     ("variance", varianceJson e.variance),
   ]
 
-private def aliasJson (e : AliasEntry) : Json :=
+def aliasJson (e : AliasEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("spelling", e.spelling),
@@ -135,7 +139,7 @@ private def aliasJson (e : AliasEntry) : Json :=
     ("declaration", e.declaration.toString),
   ]
 
-private def classifierJson (e : ClassifierEntry) : Json :=
+def classifierJson (e : ClassifierEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("canonicalName", e.canonicalName),
@@ -144,7 +148,7 @@ private def classifierJson (e : ClassifierEntry) : Json :=
     ("visibility", visibilityJson e.visibility),
   ]
 
-private def functorJson (e : FunctorEntry) : Json :=
+def functorJson (e : FunctorEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("canonicalName", e.canonicalName),
@@ -160,7 +164,7 @@ private def functorJson (e : FunctorEntry) : Json :=
     ("preferredPresentation", e.preferredPresentation),
   ]
 
-private def constructorJson (e : ConstructorEntry) : Json :=
+def constructorJson (e : ConstructorEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("canonicalName", e.canonicalName),
@@ -168,7 +172,7 @@ private def constructorJson (e : ConstructorEntry) : Json :=
     ("sourcePosition", e.sourcePosition),
   ]
 
-private def finiteLimitConeJson (e : FiniteLimitConeEntry) : Json :=
+def finiteLimitConeJson (e : FiniteLimitConeEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("apex", categoryExprJson e.apex),
@@ -176,7 +180,7 @@ private def finiteLimitConeJson (e : FiniteLimitConeEntry) : Json :=
     ("sourcePosition", e.sourcePosition),
   ]
 
-private def coherenceJson (e : CoherenceEntry) : Json :=
+def coherenceJson (e : CoherenceEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("source", e.source.raw),
@@ -185,7 +189,7 @@ private def coherenceJson (e : CoherenceEntry) : Json :=
     ("sourcePosition", e.sourcePosition),
   ]
 
-private def theoremInclusionJson (e : TheoremInclusionEntry) : Json :=
+def theoremInclusionJson (e : TheoremInclusionEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("source", categoryExprJson e.source),
@@ -194,7 +198,7 @@ private def theoremInclusionJson (e : TheoremInclusionEntry) : Json :=
     ("sourcePosition", e.sourcePosition),
   ]
 
-private def presentationJson (e : PresentationMetadataEntry) : Json :=
+def presentationJson (e : PresentationMetadataEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("category", e.category.raw),
@@ -203,7 +207,7 @@ private def presentationJson (e : PresentationMetadataEntry) : Json :=
     ("sourcePosition", e.sourcePosition),
   ]
 
-private def opaqueJson (e : OpaqueCategoryEntry) : Json :=
+def opaqueJson (e : OpaqueCategoryEntry) : Json :=
   object [
     ("id", e.id.raw),
     ("declaration", e.declaration.toString),

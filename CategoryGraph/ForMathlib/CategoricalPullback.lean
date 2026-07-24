@@ -2,10 +2,14 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.CategoryTheory.Equivalence
-import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
-import CategoryGraph.Core.AxiomOpfibration
-import CategoryGraph.Core.CategoricalPullback
+module
+
+public import Mathlib.CategoryTheory.Equivalence
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
+public import CategoryGraph.Core.AxiomOpfibration
+public import CategoryGraph.Core.CategoricalPullback
+
+@[expose] public section
 
 /-!
 # Categorical pullback coherences

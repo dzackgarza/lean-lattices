@@ -2,9 +2,13 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Core.CategoricalPullback
-import CategoryGraph.Core.Ids
-import Mathlib.CategoryTheory.Equivalence
+module
+
+public import CategoryGraph.Core.CategoricalPullback
+public import CategoryGraph.Core.Ids
+public import Mathlib.CategoryTheory.Equivalence
+
+@[expose] public section
 
 /-!
 # Axiomatic opfibration (meta-level)
@@ -52,7 +56,7 @@ structure ClassifiedCategory where
 
 namespace AxiomOpfibration
 
-private theorem composeSquare {A B C : ClassifiedCategory.{uObj, uHom}}
+theorem composeSquare {A B C : ClassifiedCategory.{uObj, uHom}}
     (first : ClassifierSquare A B) (second : ClassifierSquare B C) :
     Nonempty <| CatCommSq
       (first.totalMap ≫ second.totalMap).toFunctor

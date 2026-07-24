@@ -1,4 +1,8 @@
-import LeanLattices.Algebra.BilinearForm.Basic
+module
+
+public import LeanLattices.Algebra.BilinearForm.Basic
+
+@[expose] public section
 
 /-!
 # Mathlib Upstream Dual Modules and Indices

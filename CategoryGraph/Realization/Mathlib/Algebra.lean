@@ -2,12 +2,16 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Algebra.Category.Semigrp.Basic
-import Mathlib.Algebra.Group.Defs
-import Mathlib.CategoryTheory.Category.Cat
-import Mathlib.CategoryTheory.ConcreteCategory.Basic
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import CategoryGraph.Realization.Mathlib.Foundation
+module
+
+public import Mathlib.Algebra.Category.Semigrp.Basic
+public import Mathlib.Algebra.Group.Defs
+public import Mathlib.CategoryTheory.Category.Cat
+public import Mathlib.CategoryTheory.ConcreteCategory.Basic
+public import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
+public import CategoryGraph.Realization.Mathlib.Foundation
+
+@[expose] public section
 
 /-!
 # Mathlib algebra atoms on Magmas

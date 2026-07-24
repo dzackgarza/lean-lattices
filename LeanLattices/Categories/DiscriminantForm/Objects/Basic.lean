@@ -1,5 +1,9 @@
-import LeanLattices.Categories.IntegralLat.Objects.Dual
-import LeanLattices.Categories.IntegralLat.Objects.EvenLat
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Dual
+public import LeanLattices.Categories.IntegralLat.Objects.EvenLat
+
+@[expose] public section
 
 namespace LeanLattices.Categories.DiscriminantForm
 

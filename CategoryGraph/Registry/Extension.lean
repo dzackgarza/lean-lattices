@@ -2,10 +2,14 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.Registry.Entry
-import CategoryGraph.Core.Classifier
-import CategoryGraph.Model.Interpretation
-import Lean
+module
+
+public import CategoryGraph.Registry.Entry
+public import CategoryGraph.Core.Classifier
+public import CategoryGraph.Model.Interpretation
+public import Lean
+
+@[expose] public section
 
 /-!
 # Persistent registry extension
@@ -221,31 +225,31 @@ def addRegistryEntry (e : RegistryEntry) : CoreM Unit := do
   modifyEnv (registryExt.addEntry · e)
 
 /-- The result type of a declaration after exposing all of its parameters. -/
-private def declarationResultType (declaration : Name) : MetaM Expr := do
+def declarationResultType (declaration : Name) : MetaM Expr := do
   let info ← getConstInfo declaration
   forallTelescopeReducing info.type fun _ result => pure result
 
 /-- Require a declaration to return an actual category object. -/
-private def ensureCategoryDeclaration (declaration : Name) : MetaM Unit := do
+def ensureCategoryDeclaration (declaration : Name) : MetaM Unit := do
   let result ← declarationResultType declaration
   unless result.isConstOf ``CategoryGraph.ObjCat do
     throwError "registry declaration {declaration} must return ObjCat, but returns {result}"
 
 /-- Require an optional category-realization declaration to have the typed witness form. -/
-private def ensureCategoryRealization (realization : Name) : MetaM Unit := do
+def ensureCategoryRealization (realization : Name) : MetaM Unit := do
   let result ← declarationResultType realization
   unless result.isAppOfArity ``CategoryGraph.CategoryRealization 5 do
     throwError
       "registry realization {realization} must return CategoryRealization ..., but returns {result}"
 
 /-- Require a declaration to return a classifier after its parameters are supplied. -/
-private def ensureClassifierDeclaration (declaration : Name) : MetaM Unit := do
+def ensureClassifierDeclaration (declaration : Name) : MetaM Unit := do
   let result ← declarationResultType declaration
   unless result.isAppOfArity ``CategoryGraph.Classifier 1 do
     throwError "registry declaration {declaration} must return Classifier _, but returns {result}"
 
 /-- Require a declaration to elaborate to an actual functor between categories. -/
-private def ensureFunctorDeclaration (declaration : Name) : MetaM Unit := do
+def ensureFunctorDeclaration (declaration : Name) : MetaM Unit := do
   let result ← whnf (← declarationResultType declaration)
   unless result.isAppOfArity ``CategoryTheory.Functor 4 ||
       result.isAppOfArity ``CategoryTheory.Cat.Hom 2 do

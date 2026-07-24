@@ -11,7 +11,11 @@ status (#28). That unknown-answer form uses the banned token, so it belongs in t
 excluded conjecture surfaces (`**/*.conjecture*`, `**/Conjectures/**`); this module
 only re-exports the elaborator and smoke-tests the concrete forms.
 -/
-import AiReviewCi.Answer
+module
+
+public import AiReviewCi.Answer
+
+@[expose] public section
 
 open AiReviewCi.Answer
 

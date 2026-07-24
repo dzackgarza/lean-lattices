@@ -1,4 +1,8 @@
-import LeanLattices.Categories.IntegralLat.Objects.Basic
+module
+
+public import LeanLattices.Categories.IntegralLat.Objects.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.RationalFan
 

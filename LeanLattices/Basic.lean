@@ -1,4 +1,8 @@
-import Mathlib.Order.Lattice
+module
+
+public import Mathlib.Order.Lattice
+
+@[expose] public section
 
 def hello := "world"
 

@@ -1,6 +1,10 @@
-import LeanLattices.Categories.FiniteFreeZModule.Objects.Basic
-import Mathlib.LinearAlgebra.FreeModule.PID
-import Mathlib.LinearAlgebra.FreeModule.Int
+module
+
+public import LeanLattices.Categories.FiniteFreeZModule.Objects.Basic
+public import Mathlib.LinearAlgebra.FreeModule.PID
+public import Mathlib.LinearAlgebra.FreeModule.Int
+
+@[expose] public section
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 

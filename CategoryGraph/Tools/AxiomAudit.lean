@@ -2,8 +2,12 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import CategoryGraph.All
-import Lean.Util.CollectAxioms
+module
+
+public import CategoryGraph.All
+public import Lean.Util.CollectAxioms
+
+@[expose] public section
 
 /-!
 # Kernel-axiom audit

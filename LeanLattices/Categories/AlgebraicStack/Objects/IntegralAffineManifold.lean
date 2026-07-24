@@ -1,4 +1,8 @@
-import Mathlib.Data.Set.Finite.Basic
+module
+
+public import Mathlib.Data.Set.Finite.Basic
+
+@[expose] public section
 
 namespace LeanLattices.Categories.AlgebraicStack
 

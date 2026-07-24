@@ -1,5 +1,9 @@
-import LeanLattices.Categories.IntegralLat.Morphisms.Involution
-import LeanLattices.Categories.ReflectionGroup.Objects.CoxeterDatum
+module
+
+public import LeanLattices.Categories.IntegralLat.Morphisms.Involution
+public import LeanLattices.Categories.ReflectionGroup.Objects.CoxeterDatum
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ReflectionGroup
 

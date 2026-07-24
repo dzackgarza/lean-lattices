@@ -1,5 +1,9 @@
-import LeanLattices.Categories.DiscriminantForm.Objects.Basic
-import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
+module
+
+public import LeanLattices.Categories.DiscriminantForm.Objects.Basic
+public import LeanLattices.Categories.IntegralLat.Morphisms.Embedding
+
+@[expose] public section
 
 namespace LeanLattices.Categories.DiscriminantForm
 

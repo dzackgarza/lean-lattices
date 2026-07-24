@@ -1,6 +1,10 @@
-import LeanLattices.IntegralLattice
-import LeanLattices.DualAndDiscriminant
-import Mathlib.Algebra.Group.Units.Equiv
+module
+
+public import LeanLattices.IntegralLattice
+public import LeanLattices.DualAndDiscriminant
+public import Mathlib.Algebra.Group.Units.Equiv
+
+@[expose] public section
 
 /-!
 # Standard Lattices

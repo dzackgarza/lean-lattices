@@ -1,4 +1,8 @@
-import LeanLattices.Categories.KSBAPair.Objects.LogPair
+module
+
+public import LeanLattices.Categories.KSBAPair.Objects.LogPair
+
+@[expose] public section
 
 namespace LeanLattices.Categories.KSBAPair
 

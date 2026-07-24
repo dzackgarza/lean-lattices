@@ -1,4 +1,8 @@
-import Mathlib.AlgebraicGeometry.Scheme
+module
+
+public import Mathlib.AlgebraicGeometry.Scheme
+
+@[expose] public section
 
 namespace LeanLattices.Categories.AlgebraicStack
 

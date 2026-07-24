@@ -1,4 +1,8 @@
-import LeanLattices.Categories.SymmBilinModuleCat.Morphisms.Hom
+module
+
+public import LeanLattices.Categories.SymmBilinModuleCat.Morphisms.Hom
+
+@[expose] public section
 
 namespace LeanLattices.Categories.IntegralLat
 

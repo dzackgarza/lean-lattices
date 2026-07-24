@@ -1,4 +1,8 @@
-import LeanLattices.Categories.ComplexManifold.Objects.Domain
+module
+
+public import LeanLattices.Categories.ComplexManifold.Objects.Domain
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ComplexManifold
 

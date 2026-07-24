@@ -2,7 +2,11 @@
 Copyright (c) 2026 Dzack Garza. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.CategoryTheory.Category.Cat
+module
+
+public import Mathlib.CategoryTheory.Category.Cat
+
+@[expose] public section
 
 /-!
 # Universe tower vs mathematical Cat

@@ -1,4 +1,8 @@
-import LeanLattices.Categories.Scheme.Divisors.Reflexive
+module
+
+public import LeanLattices.Categories.Scheme.Divisors.Reflexive
+
+@[expose] public section
 
 namespace LeanLattices.Categories.Scheme
 

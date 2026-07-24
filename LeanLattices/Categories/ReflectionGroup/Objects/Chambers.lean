@@ -1,4 +1,8 @@
-import LeanLattices.Categories.ReflectionGroup.Objects.Representation
+module
+
+public import LeanLattices.Categories.ReflectionGroup.Objects.Representation
+
+@[expose] public section
 
 namespace LeanLattices.Categories.ReflectionGroup
 

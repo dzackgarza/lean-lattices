@@ -1,4 +1,8 @@
-import LeanLattices.Categories.AlgebraicStack.Objects.KSBAStack
+module
+
+public import LeanLattices.Categories.AlgebraicStack.Objects.KSBAStack
+
+@[expose] public section
 
 namespace LeanLattices.Categories.AlgebraicStack
 

@@ -1,8 +1,12 @@
-import LeanLattices.IntegralLattice
-import Mathlib.LinearAlgebra.Basis.Basic
+module
 
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import LeanLattices.IntegralLattice
+public import Mathlib.LinearAlgebra.Basis.Basic
+
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+
+@[expose] public section
 
 
 /-!

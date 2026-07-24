@@ -1,6 +1,10 @@
-import LeanLattices.Categories.FiniteFreeZModule.Objects.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Tower
+module
+
+public import LeanLattices.Categories.FiniteFreeZModule.Objects.Basic
+public import Mathlib.Data.Real.Basic
+public import Mathlib.LinearAlgebra.TensorProduct.Tower
+
+@[expose] public section
 
 namespace LeanLattices.Categories.FiniteFreeZModule
 
